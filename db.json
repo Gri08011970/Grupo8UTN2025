@@ -1,0 +1,148 @@
+{
+  "orders": [
+    { "id": 1, "customer": "Ana Jiménez",   "email": "ana@mail.com",   "total": 54000, "status": "pendiente" },
+    { "id": 2, "customer": "Juan Díaz",     "email": "juan@mail.com",  "total": 32000, "status": "pagado"    },
+    { "id": 3, "customer": "Carla Gómez",   "email": "carla@mail.com", "total": 89000, "status": "enviado"   },
+    { "id": 4, "customer": "Marcos Pérez",  "email": "marcos@mail.com","total": 41000, "status": "pagado"    },
+    { "id": 5, "customer": "Laura Sosa",    "email": "laura@mail.com", "total": 23000, "status": "pendiente" },
+    { "id": 6, "customer": "Diego Romero",  "email": "diego@mail.com", "total": 76000, "status": "pendiente" }
+  ],
+
+  "products": [
+   
+    { "id": 301, "name": "Bermuda Gabardina Hombre", "price": 27000, "category": "hombre", "subcategory": "bermudas", "image": "/images/hombre/bermudas/bermuda-01.webp", "description": "Gabardina liviana, bolsillos laterales" },
+    { "id": 302, "name": "Bermuda Denim Hombre",      "price": 26500, "category": "hombre", "subcategory": "bermudas", "image": "/images/hombre/bermudas/bermuda-02.webp", "description": "Denim resistente, lavado medio" },
+    { "id": 303, "name": "Bermuda Cargo Hombre",      "price": 28000, "category": "hombre", "subcategory": "bermudas", "image": "/images/hombre/bermudas/bermuda-03.webp", "description": "Estilo cargo, múltiples bolsillos" },
+
+    
+    { "id": 304, "name": "Jeans Regular Hombre", "price": 34000, "category": "hombre", "subcategory": "jeans", "image": "/images/hombre/jeans/jeans-01.webp", "description": "Calce regular, lavado clásico" },
+    { "id": 305, "name": "Jeans Slim Hombre",    "price": 36000, "category": "hombre", "subcategory": "jeans", "image": "/images/hombre/jeans/jeans-02.webp", "description": "Corte slim, stretch cómodo" },
+    { "id": 306, "name": "Jeans Relaxed Hombre", "price": 35500, "category": "hombre", "subcategory": "jeans", "image": "/images/hombre/jeans/jeans-03.webp", "description": "Tiro medio, fit relaxed" },
+
+
+    { "id": 307, "name": "Remera Básica Hombre",    "price": 15000, "category": "hombre", "subcategory": "remeras", "image": "/images/hombre/remeras/remera-01.webp", "description": "Algodón peinado, slim fit" },
+    { "id": 308, "name": "Remera Estampada Hombre", "price": 17000, "category": "hombre", "subcategory": "remeras", "image": "/images/hombre/remeras/remera-02.webp", "description": "Estampa frontal, tejido suave" },
+    { "id": 309, "name": "Remera Oversize Hombre",  "price": 18000, "category": "hombre", "subcategory": "remeras", "image": "/images/hombre/remeras/remera-03.webp", "description": "Oversize, cuello a la base" },
+
+ 
+    { "id": 310, "name": "Short Deportivo Hombre", "price": 22000, "category": "hombre", "subcategory": "shorts", "image": "/images/hombre/shorts/shorts-01.webp", "description": "Tejido respirable, cintura elastizada" },
+    { "id": 311, "name": "Short Algodón Hombre",   "price": 20000, "category": "hombre", "subcategory": "shorts", "image": "/images/hombre/shorts/shorts-02.webp", "description": "Algodón rústico, confort diario" },
+    { "id": 312, "name": "Short Cargo Hombre",     "price": 24000, "category": "hombre", "subcategory": "shorts", "image": "/images/hombre/shorts/shorts-03.webp", "description": "Bolsillos cargo, resistente" },
+
+    
+    { "id": 313, "name": "Bermuda Gabardina Mujer", "price": 26000, "category": "mujer", "subcategory": "bermudas", "image": "/images/mujer/bermudas/bermudas-01.webp", "description": "Gabardina suave, tiro medio" },
+    { "id": 314, "name": "Bermuda Denim Mujer",     "price": 25500, "category": "mujer", "subcategory": "bermudas", "image": "/images/mujer/bermudas/bermudas-02.webp", "description": "Denim clásico, lavado medio" },
+    { "id": 315, "name": "Bermuda Cargo Mujer",     "price": 27000, "category": "mujer", "subcategory": "bermudas", "image": "/images/mujer/bermudas/bermudas-03.webp", "description": "Estilo cargo, cómodo y versátil" },
+
+    
+    { "id": 316, "name": "Jeans Slim Mujer",  "price": 35000, "category": "mujer", "subcategory": "jeans", "image": "/images/mujer/jeans/jeans-01.webp", "description": "Tiro medio, calce slim" },
+    { "id": 317, "name": "Jeans Mom Mujer",   "price": 37000, "category": "mujer", "subcategory": "jeans", "image": "/images/mujer/jeans/jeans-02.webp", "description": "Tiro alto, fit mom" },
+    { "id": 318, "name": "Jeans Recto Mujer", "price": 36000, "category": "mujer", "subcategory": "jeans", "image": "/images/mujer/jeans/jeans-03.webp", "description": "Recto clásico, denim intermedio" },
+
+   
+    { "id": 319, "name": "Remera Básica Mujer",    "price": 15000, "category": "mujer", "subcategory": "remeras", "image": "/images/mujer/remeras/remera-01.webp", "description": "Algodón suave, cuello redondo" },
+    { "id": 320, "name": "Remera Oversize Mujer",  "price": 18000, "category": "mujer", "subcategory": "remeras", "image": "/images/mujer/remeras/remera-02.webp", "description": "Corte amplio y cómodo" },
+    { "id": 321, "name": "Remera Estampada Mujer", "price": 17000, "category": "mujer", "subcategory": "remeras", "image": "/images/mujer/remeras/remera-03.webp", "description": "Estampa frontal, tejido liviano" },
+
+   
+    { "id": 322, "name": "Short Deportivo Mujer", "price": 21000, "category": "mujer", "subcategory": "shorts", "image": "/images/mujer/shorts/shorts-01.webp", "description": "Secado rápido, ideal training" },
+    { "id": 323, "name": "Short Algodón Mujer",   "price": 20000, "category": "mujer", "subcategory": "shorts", "image": "/images/mujer/shorts/shorts-02.webp", "description": "Algodón rústico, suave" },
+    { "id": 324, "name": "Short Cargo Mujer",     "price": 23000, "category": "mujer", "subcategory": "shorts", "image": "/images/mujer/shorts/shorts-03.webp", "description": "Estilo cargo, práctico" },
+
+   
+    { "id": 325, "name": "Vestido Midi Mujer",   "price": 42000, "category": "mujer", "subcategory": "vestidos", "image": "/images/mujer/vestidos/vestido-01.webp", "description": "Línea midi, tela fluida" },
+    { "id": 326, "name": "Vestido Corto Mujer",  "price": 39000, "category": "mujer", "subcategory": "vestidos", "image": "/images/mujer/vestidos/vestido-02.webp", "description": "Corto urbano, fresco" },
+    { "id": 327, "name": "Vestido Largo Mujer",  "price": 45000, "category": "mujer", "subcategory": "vestidos", "image": "/images/mujer/vestidos/vestido-03.webp", "description": "Largo elegante, caída suave" },
+
+   
+    { "id": 328, "name": "Remera Básica Unisex",    "price": 16000, "category": "unisex", "subcategory": "remeras", "image": "/images/unisex/remeras/remera-01.webp", "description": "Corte clásico, algodón" },
+    { "id": 329, "name": "Remera Oversize Unisex",  "price": 18000, "category": "unisex", "subcategory": "remeras", "image": "/images/unisex/remeras/remera-02.webp", "description": "Oversize, ultra cómoda" },
+    { "id": 330, "name": "Remera Estampada Unisex", "price": 17500, "category": "unisex", "subcategory": "remeras", "image": "/images/unisex/remeras/remera-03.webp", "description": "Estampa frontal, liviana" },
+
+
+    {
+  "id": 331,
+  "name": "Jeans Regular Unisex",
+  "price": 34500,
+  "category": "unisex",
+  "subcategory": "jeans",
+  "image": "/images/unisex/jeans/jeans-01.webp",
+  "description": "Calce regular, denim clásico"
+},
+{
+  "id": 332,
+  "name": "Jeans Slim Unisex",
+  "price": 36500,
+  "category": "unisex",
+  "subcategory": "jeans",
+  "image": "/images/unisex/jeans/jeans-02.webp",
+  "description": "Corte slim con stretch cómodo"
+},
+{
+  "id": 333,
+  "name": "Jeans Relaxed Unisex",
+  "price": 35500,
+  "category": "unisex",
+  "subcategory": "jeans",
+  "image": "/images/unisex/jeans/jeans-03.webp",
+  "description": "Fit relaxed, tiro medio"
+},
+
+{
+  "id": 334,
+  "name": "Bermuda Gabardina Unisex",
+  "price": 27500,
+  "category": "unisex",
+  "subcategory": "bermudas",
+  "image": "/images/unisex/bermudas/bermuda-01.webp",
+  "description": "Gabardina liviana, bolsillos laterales"
+},
+{
+  "id": 335,
+  "name": "Bermuda Denim Unisex",
+  "price": 26800,
+  "category": "unisex",
+  "subcategory": "bermudas",
+  "image": "/images/unisex/bermudas/bermuda-02.webp",
+  "description": "Denim resistente, lavado medio"
+},
+{
+  "id": 336,
+  "name": "Bermuda Cargo Unisex",
+  "price": 28500,
+  "category": "unisex",
+  "subcategory": "bermudas",
+  "image": "/images/unisex/bermudas/bermuda-03.webp",
+  "description": "Estilo cargo, múltiples bolsillos"
+},
+
+{
+  "id": 337,
+  "name": "Short Deportivo Unisex",
+  "price": 22500,
+  "category": "unisex",
+  "subcategory": "shorts",
+  "image": "/images/unisex/shorts/shorts-01.webp",
+  "description": "Tela respirable, cintura elastizada"
+},
+{
+  "id": 338,
+  "name": "Short Algodón Unisex",
+  "price": 20500,
+  "category": "unisex",
+  "subcategory": "shorts",
+  "image": "/images/unisex/shorts/shorts-02.webp",
+  "description": "Algodón rústico, uso diario"
+},
+{
+  "id": 339,
+  "name": "Short Cargo Unisex",
+  "price": 24000,
+  "category": "unisex",
+  "subcategory": "shorts",
+  "image": "/images/unisex/shorts/shorts-03.webp",
+  "description": "Bolsillos cargo, resistente"
+}
+  ]
+}
+   
