@@ -6,7 +6,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "mock": "json-server --watch db.json --port 4000",
-    "start": "node server.cjs"            
+    "start": "node server.mjs"            
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.12",
