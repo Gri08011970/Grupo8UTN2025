@@ -4,8 +4,10 @@ export default function Footer() {
 
   return (
     <footer className="border-t bg-white">
-      <div className="container mx-auto max-w-6xl px-4 py-6 text-sm text-gray-600
-                      flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <div
+        className="container mx-auto max-w-6xl px-4 py-6 text-sm text-gray-600
+                      flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+      >
         {/* Izquierda */}
         <p>
           © {year} RopaShop —{" "}
@@ -14,10 +16,10 @@ export default function Footer() {
 
         {/* Derecha: “desde GRUPO 8 …” alineado a la derecha */}
         <p className="sm:ml-auto sm:text-right">
-          <span className="font-semibold">GRUPO 8</span>: Magalí · Diego · Daniela · Lean · Gri
+          <span className="font-semibold">GRUPO 8</span>: Axel . Magalí · Diego
+          · Daniela · Gri
         </p>
       </div>
     </footer>
   );
 }
-
