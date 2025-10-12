@@ -1,32 +1,61 @@
-// RegisterPage.jsx
-import { useState } from 'react'
-import { useAuth } from '../hooks/useAuth.js'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
-  const [form, setForm] = useState({ name:'', email:'', password:'' })
-  const [error, setError] = useState('')
-  const { register } = useAuth()
-  const navigate = useNavigate()
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
 
   const onSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+    setErr("");
     try {
-      await register(form)
-      navigate('/')
-    } catch (err) {
-      setError(err.message)
+      await register({ name: name.trim(), email: email.trim(), password });
+      navigate("/");
+    } catch (e) {
+      setErr(e.message || "No se pudo registrar");
     }
-  }
+  };
 
   return (
-    <form onSubmit={onSubmit} className="max-w-sm mx-auto bg-white border rounded-xl p-6">
-      <h2 className="text-xl font-semibold mb-4">Registro</h2>
-      {error && <p className="text-red-600">{error}</p>}
-      <input className="w-full border rounded px-3 py-2 mb-3" placeholder="Nombre" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} />
-      <input className="w-full border rounded px-3 py-2 mb-3" placeholder="Email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} />
-      <input className="w-full border rounded px-3 py-2 mb-4" type="password" placeholder="Contraseña" value={form.password} onChange={e=>setForm({...form, password:e.target.value})} />
-      <button className="w-full bg-indigo-600 text-white rounded py-2">Crear cuenta</button>
-    </form>
-  )
+    <section className="max-w-md mx-auto">
+      <h1 className="text-xl font-semibold mb-4">Registro</h1>
+
+      <form onSubmit={onSubmit} className="space-y-3">
+        <input
+          className="input w-full"
+          placeholder="Tu nombre"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          autoComplete="name"
+          required
+        />
+        <input
+          className="input w-full"
+          placeholder="tucorreo@mail.com"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
+          required
+        />
+        <input
+          className="input w-full"
+          placeholder="********"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          autoComplete="new-password"
+          required
+        />
+        <button className="btn-primary w-full">Crear cuenta</button>
+        {err && <p className="text-red-600 bg-red-50 rounded p-2">{err}</p>}
+      </form>
+    </section>
+  );
 }
+

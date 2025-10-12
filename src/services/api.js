@@ -1,78 +1,64 @@
 // src/services/api.js
+export const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:4001/api";
 
-// Resuelve automáticamente el baseURL:
-// - Si existe VITE_API_URL, la usa (p.ej. "/api" o "https://algo.com/api")
-// - Si estamos en localhost, usa el mock: http://localhost:4000
-// - Si estamos en producción (Render), usa `${origin}/api`
-const API_URL = (() => {
-  const env = import.meta.env?.VITE_API_URL;
-  if (env && env.trim()) return env.replace(/\/$/, ''); // sin "/" final
-
-  if (typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    if (host === 'localhost' || host === '127.0.0.1') {
-      return 'http://localhost:4000';
-    }
-    return `${window.location.origin}/api`;
-  }
-  return 'http://localhost:4000';
-})();
-
-// Une base + path sin duplicar / o dejar huecos
-function joinUrl(base, path) {
-  const b = base.replace(/\/$/, '');
-  const p = String(path || '').replace(/^\//, '');
+// Une base + path y evita duplicar "api/api"
+function joinURL(base, path) {
+  const b = String(base).replace(/\/+$/, "");      // sin barra al final
+  let p = String(path).replace(/^\/+/, "");        // sin barra al inicio
+  if (b.endsWith("/api") && p.startsWith("api/")) p = p.slice(4); // quita api/ duplicado
   return `${b}/${p}`;
 }
 
-function getAuthHeaders() {
+function readAuth() {
   try {
-    const saved = localStorage.getItem('auth');
-    if (!saved) return {};
-    const { token } = JSON.parse(saved);
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    const raw = localStorage.getItem("auth");
+    return raw ? JSON.parse(raw) : null;
   } catch {
-    return {};
+    return null;
   }
 }
 
-export async function apiFetch(path, { method = 'GET', body, headers } = {}) {
-  const url = joinUrl(API_URL, path);
+function getAuthHeaders() {
+  const saved = readAuth();
+  if (!saved) return {};
+  const headers = {};
+  if (saved.token) headers.Authorization = `Bearer ${saved.token}`;
+  // 👉 Enviamos el email para que el backend pueda decidir si es admin
+  if (saved.user?.email) headers["X-User-Email"] = saved.user.email;
+  return headers;
+}
+
+export async function apiFetch(path, { method = "GET", body, headers } = {}) {
+  const url = path.startsWith("http") ? path : joinURL(API_URL, path);
+
+  const hasBody = body !== undefined && body !== null && method !== "GET";
+  const isString = typeof body === "string";
+
+  const finalHeaders = {
+    ...(hasBody && !isString ? { "Content-Type": "application/json" } : {}),
+    ...getAuthHeaders(),
+    ...headers,
+  };
+
+  const finalBody = hasBody ? (isString ? body : JSON.stringify(body)) : undefined;
 
   const res = await fetch(url, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...getAuthHeaders(),
-      ...headers,
-    },
-    body: body != null ? JSON.stringify(body) : undefined,
-    credentials: 'include',
+    headers: finalHeaders,
+    body: finalBody,
+    credentials: "include",
   });
 
   if (!res.ok) {
-    let message = `HTTP ${res.status}`;
-    try {
-      const err = await res.json();
-      message = err?.message || message;
-    } catch {}
-    throw new Error(message);
+    let err;
+    try { err = await res.json(); } catch {}
+    const msg = err?.message || `HTTP ${res.status}`;
+    throw new Error(msg);
   }
 
-  // Puede venir 204 o respuesta vacía.
+  if (res.status === 204) return null;
+
   const text = await res.text();
   return text ? JSON.parse(text) : null;
 }
-
-// Atajos cómodos
-export const api = {
-  get: (p, opts = {}) => apiFetch(p, { ...opts, method: 'GET' }),
-  post: (p, body, opts = {}) => apiFetch(p, { ...opts, method: 'POST', body }),
-  put: (p, body, opts = {}) => apiFetch(p, { ...opts, method: 'PUT', body }),
-  patch: (p, body, opts = {}) => apiFetch(p, { ...opts, method: 'PATCH', body }),
-  delete: (p, opts = {}) => apiFetch(p, { ...opts, method: 'DELETE' }),
-};
-
-// lo exporto por si en algún lugar lo querés mostrar/loguear
-export { API_URL };
-

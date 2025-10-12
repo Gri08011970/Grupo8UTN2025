@@ -1,95 +1,43 @@
-
+// src/pages/AdminOrdersPage.jsx
 import { useEffect, useMemo, useState } from "react";
-import Pagination from "../components/Pagination.jsx";
+import { apiFetch } from "../services/api";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
-
-/* ---------------------------
-   Utilidades de formato
---------------------------- */
-const formatCurrency = (n) =>
-  new Intl.NumberFormat("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 }).format(n ?? 0);
-
-/* ---------------------------
-   Estados en español y mapeos
---------------------------- */
-const STATUS_OPTIONS = [
-  { value: "pendiente", label: "pendiente" },
-  { value: "pagado",    label: "pagado" },
-  { value: "enviado",   label: "enviado" },
-  { value: "cancelado", label: "cancelado" },
-];
-
-// Si hay datos viejos en inglés, los mostramos en español
-const EN_TO_ES = {
-  pending: "pendiente",
-  paid: "pagado",
-  shipped: "enviado",
-  cancelled: "cancelado",
-};
-// Identidad para español (por si ya viene en es)
-const ES_ID = (s) => s;
-
-/* ---------------------------
-   json-server helpers (mock)
---------------------------- */
-async function mockListOrders({ page = 1, limit = 10 }) {
-  const res = await fetch(`${API_URL}/orders?_page=${page}&_limit=${limit}`);
-  const items = await res.json();
-  const total = Number(res.headers.get("X-Total-Count") || items.length);
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  return { items, totalPages };
-}
-async function mockCreateOrder(payload) {
-  const res = await fetch(`${API_URL}/orders`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  return res.json();
-}
-async function mockUpdateOrder(id, payload) {
-  const res = await fetch(`${API_URL}/orders/${id}`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
-  return res.json();
-}
-async function mockDeleteOrder(id) {
-  await fetch(`${API_URL}/orders/${id}`, { method: "DELETE" });
-  return true;
-}
+const table = "w-full text-sm";
+const th =
+  "text-left font-semibold text-gray-700 border-b bg-gray-50 px-3 py-2";
+const td = "border-b px-3 py-2";
+const select =
+  "rounded-lg border px-2 py-1 text-sm bg-white hover:bg-gray-50 focus:outline-none";
 
 export default function AdminOrdersPage() {
-  const [page, setPage] = useState(1);
-  const [limit] = useState(10);
-  const [data, setData] = useState({ items: [], totalPages: 1 });
+  const [orders, setOrders] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("pendiente");
   const [loading, setLoading] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState("");
 
-  // 👇 Ahora por defecto "pendiente" (ES)
-  const empty = { customer: "", email: "", total: "", status: "pendiente" };
-  const [form, setForm] = useState(empty);
-
-  const api = useMemo(
-    () => ({
-      list: ({ page, limit }) => mockListOrders({ page, limit }),
-      create: (p) => mockCreateOrder(p),
-      update: (id, p) => mockUpdateOrder(id, p),
-      remove: (id) => mockDeleteOrder(id),
-    }),
-    []
-  );
+  // Modal crear manual
+  const [showModal, setShowModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    customerName: "",
+    email: "",
+    phone: "",
+    total: "",
+    status: "pendiente",
+  });
 
   async function load() {
     setLoading(true);
+    setError("");
     try {
-      const res = await api.list({ page, limit });
-      setData(res);
-    } catch (err) {
-      console.error(err);
-      setData({ items: [], totalPages: 1 });
+      const params =
+        statusFilter && statusFilter !== "todos"
+          ? `?status=${encodeURIComponent(statusFilter)}`
+          : "";
+      const data = await apiFetch(`/orders${params}`);
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (e) {
+      setError(e.message || "No se pudo cargar.");
     } finally {
       setLoading(false);
     }
@@ -98,134 +46,288 @@ export default function AdminOrdersPage() {
   useEffect(() => {
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [statusFilter]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const payload = {
-      ...form,
-      total: Number(form.total) || 0, // guardar número
-      status: form.status || "pendiente", // ya viene en ES
-    };
-    if (editingId) await api.update(editingId, payload);
-    else await api.create(payload);
-    setForm(empty);
-    setEditingId(null);
-    load();
-  };
+  async function handleUpdateStatus(id, nextStatus) {
+    try {
+      await apiFetch(`/orders/${id}`, {
+        method: "PATCH",
+        body: { status: nextStatus },
+      });
+      setOrders((prev) =>
+        prev.map((o) => (o.id === id ? { ...o, status: nextStatus } : o))
+      );
+    } catch (e) {
+      setError(e.message || "No se pudo actualizar el estado.");
+    }
+  }
 
-  const onEdit = (o) => {
-    setEditingId(o.id);
-    // Normalizamos el estado que venga del backend:
-    // si viene en inglés lo pasamos a ES, si ya está en ES lo dejamos igual.
-    const normalized =
-      EN_TO_ES[o.status] ?? ES_ID(o.status ?? "pendiente");
+  async function handleDelete(id) {
+    if (!confirm("¿Eliminar esta compra?")) return;
+    try {
+      await apiFetch(`/orders/${id}`, { method: "DELETE" });
+      setOrders((prev) => prev.filter((o) => o.id !== id));
+    } catch (e) {
+      setError(e.message || "No se pudo eliminar.");
+    }
+  }
 
+  function openCreateModal() {
     setForm({
-      customer: o.customer || "",
-      email: o.email || "",
-      total: String(o.total ?? ""),
-      status: normalized,
+      customerName: "",
+      email: "",
+      phone: "",
+      total: "",
+      status: "pendiente",
     });
-  };
+    setError("");
+    setShowModal(true);
+  }
 
-  const onDelete = async (id) => {
-    if (!confirm("¿Eliminar la compra?")) return;
-    await api.remove(id);
-    load();
-  };
+  async function handleCreate(e) {
+    e.preventDefault();
+    setSaving(true);
+    setError("");
+
+    try {
+      // IMPORTANTE: el backend valida estos nombres de campos
+      const payload = {
+        customer: (form.customerName || "").trim(),
+        email: (form.email || "").trim().toLowerCase(),
+        total: Number(form.total || 0),
+        status: form.status,
+        items: [], // explícito (el validador lo admite como optional array)
+        createdAt: new Date().toISOString(),
+      };
+
+      // Sólo mandar phone si tiene contenido suficiente (min 6)
+      const phoneTrim = (form.phone || "").trim();
+      if (phoneTrim.length >= 6) payload.phone = phoneTrim;
+
+      await apiFetch("/orders", { method: "POST", body: payload });
+
+      setShowModal(false);
+      await load();
+    } catch (e) {
+      setError(e.message || "No se pudo crear la compra.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  const rows = useMemo(() => orders ?? [], [orders]);
 
   return (
-    <section>
-      <h2 className="text-xl font-semibold mb-4">Compras (ABMC + paginado)</h2>
+    <section className="container-narrow">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-600">Estado:</span>
+          <select
+            className={select}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="pendiente">pendiente</option>
+            <option value="pagado">pagado</option>
+            <option value="enviado">enviado</option>
+            <option value="cancelado">cancelado</option>
+            <option value="todos">todos</option>
+          </select>
+        </div>
 
-      <form
-        onSubmit={onSubmit}
-        className="bg-white border rounded-xl p-4 grid sm:grid-cols-2 gap-3 mb-6"
-      >
-        <input
-          className="border rounded px-3 py-2"
-          placeholder="Cliente"
-          value={form.customer}
-          onChange={(e) => setForm({ ...form, customer: e.target.value })}
-        />
-        <input
-          className="border rounded px-3 py-2"
-          placeholder="Email"
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-        />
-        <input
-          className="border rounded px-3 py-2"
-          placeholder="Total"
-          value={form.total}
-          onChange={(e) => setForm({ ...form, total: e.target.value })}
-        />
-        <select
-          className="border rounded px-3 py-2"
-          value={form.status}
-          onChange={(e) => setForm({ ...form, status: e.target.value })}
-        >
-          {STATUS_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-
-        <button className="sm:col-span-2 bg-indigo-600 text-white rounded py-2">
-          {editingId ? "Guardar cambios" : "Crear compra"}
+        <button className="btn" onClick={openCreateModal}>
+          Crear compra
         </button>
-      </form>
+      </div>
 
-      {loading ? (
-        <p>Cargando…</p>
-      ) : (
-        <>
-          <table className="w-full bg-white border rounded-xl overflow-hidden">
-            <thead className="bg-gray-50 text-left">
+      {error && (
+        <div className="mb-3 rounded-xl border border-rose-200 bg-rose-50 px-4 py-2 text-rose-900">
+          {error}
+        </div>
+      )}
+
+      <div className="overflow-x-auto bg-white rounded-2xl border">
+        <table className={table}>
+          <thead>
+            <tr>
+              <th className={th}>Cliente</th>
+              <th className={th}>Fecha</th>
+              <th className={th}>Correo electrónico</th>
+              <th className={th}>Teléfono</th>
+              <th className={th}>Total</th>
+              <th className={th}>Estado</th>
+              <th className={th}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
               <tr>
-                <th className="p-3">Cliente</th>
-                <th className="p-3">Email</th>
-                <th className="p-3">Total</th>
-                <th className="p-3">Estado</th>
-                <th className="p-3">Acciones</th>
+                <td className={td} colSpan={7}>
+                  Cargando…
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {(data.items || []).map((o) => (
-                <tr key={o.id} className="border-t">
-                  <td className="p-3">{o.customer}</td>
-                  <td className="p-3">{o.email}</td>
-                  <td className="p-3">{formatCurrency(o.total)}</td>
-                  <td className="p-3">{EN_TO_ES[o.status] ?? o.status}</td>
-                  <td className="p-3 flex gap-2">
-                    <button
-                      className="px-2 py-1 border rounded"
-                      onClick={() => onEdit(o)}
+            ) : rows.length === 0 ? (
+              <tr>
+                <td className={td} colSpan={7}>
+                  Sin resultados.
+                </td>
+              </tr>
+            ) : (
+              rows.map((o) => (
+                <tr key={o.id}>
+                  <td className={td}>{o.customer || o.customerName || "—"}</td>
+                  <td className={td}>
+                    {o.createdAt
+                      ? new Date(o.createdAt).toLocaleDateString("es-AR", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })
+                      : "—"}
+                  </td>
+                  <td className={td}>{o.email || "—"}</td>
+                  <td className={td}>{o.phone || "—"}</td>
+                  <td className={td}>
+                    ${" "}
+                    {Number(o.total || 0).toLocaleString("es-AR", {
+                      maximumFractionDigits: 0,
+                    })}
+                  </td>
+                  <td className={td}>
+                    <select
+                      className={select}
+                      value={o.status}
+                      onChange={(e) =>
+                        handleUpdateStatus(o.id, e.target.value)
+                      }
                     >
-                      Editar
-                    </button>
+                      <option value="pendiente">pendiente</option>
+                      <option value="pagado">pagado</option>
+                      <option value="enviado">enviado</option>
+                      <option value="cancelado">cancelado</option>
+                    </select>
+                  </td>
+                  <td className={td}>
                     <button
-                      className="px-2 py-1 border rounded"
-                      onClick={() => onDelete(o.id)}
+                      className="text-rose-600 hover:text-rose-700"
+                      onClick={() => handleDelete(o.id)}
                     >
                       Eliminar
                     </button>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
-          <Pagination
-            page={page}
-            totalPages={data.totalPages || 1}
-            onPageChange={setPage}
-          />
-        </>
+      {/* Modal creación */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/30 p-4">
+          <form
+            onSubmit={handleCreate}
+            className="w-full max-w-lg rounded-2xl border bg-white p-5 space-y-3"
+          >
+            <h3 className="text-lg font-semibold mb-1">Ingresar venta manual</h3>
+
+            <div>
+              <label className="block text-sm font-medium">
+                Nombre y apellido *
+              </label>
+              <input
+                className="input mt-1 w-full"
+                value={form.customerName}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, customerName: e.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium">
+                Correo electrónico *
+              </label>
+              <input
+                className="input mt-1 w-full"
+                type="email"
+                value={form.email}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, email: e.target.value }))
+                }
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium">
+                Teléfono (opcional)
+              </label>
+              <input
+                className="input mt-1 w-full"
+                value={form.phone}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, phone: e.target.value }))
+                }
+                placeholder="Mínimo 6 dígitos para guardarlo"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium">Total</label>
+                <input
+                  className="input mt-1 w-full"
+                  type="number"
+                  min={0}
+                  step="1"
+                  value={form.total}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, total: e.target.value }))
+                  }
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium">Estado</label>
+                <select
+                  className="input mt-1 w-full"
+                  value={form.status}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, status: e.target.value }))
+                  }
+                >
+                  <option value="pendiente">pendiente</option>
+                  <option value="pagado">pagado</option>
+                  <option value="enviado">enviado</option>
+                  <option value="cancelado">cancelado</option>
+                </select>
+              </div>
+            </div>
+
+            {error && (
+              <div className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-rose-900">
+                {error}
+              </div>
+            )}
+
+            <div className="flex justify-end gap-2 pt-1">
+              <button
+                type="button"
+                className="btn-outline"
+                onClick={() => setShowModal(false)}
+                disabled={saving}
+              >
+                Cancelar
+              </button>
+              <button type="submit" className="btn" disabled={saving}>
+                {saving ? "Guardando…" : "Guardar"}
+              </button>
+            </div>
+          </form>
+        </div>
       )}
     </section>
   );
 }
-

@@ -1,95 +1,108 @@
-// src/pages/CategoryDetailPage.jsx
 import { useEffect, useMemo, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import Pagination from "../components/Pagination.jsx";
+import { Link, useParams } from "react-router-dom";
+import { getProductsPaginated } from "../services/products.js";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
-
-const SUBCATS = {
-  mujer:   ["vestidos", "jeans", "shorts", "remeras", "bermudas"],
-  hombre:  ["jeans", "bermudas", "remeras", "shorts"],
-  unisex:  ["remeras", "shorts", "jeans", "bermudas"],
-};
+const LIMIT = 6;
 
 export default function CategoryDetailPage() {
-  const { slug } = useParams();
-  const [subcat, setSubcat] = useState("");  // "" = todas
-  const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState([]);
+  const { slug } = useParams(); // mujer | hombre | unisex
   const [page, setPage] = useState(1);
-  const limit = 6;
-  const [totalPages, setTotalPages] = useState(1);
+  const [sub, setSub] = useState("todas");
+  const [loading, setLoading] = useState(false);
+  const [items, setItems] = useState([]);
+  const [total, setTotal] = useState(0);
 
-  const subcats = useMemo(() => SUBCATS[slug] ?? [], [slug]);
-
-  useEffect(() => { setPage(1); }, [slug, subcat]);
+  async function load() {
+    setLoading(true);
+    try {
+      const { items, total } = await getProductsPaginated({
+        category: slug,
+        subcategory: sub !== "todas" ? sub : undefined,
+        page,
+        limit: LIMIT,
+      });
+      setItems(items);
+      setTotal(total);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    setLoading(true);
-    const url = new URL(`${API_URL}/products`);
-    url.searchParams.set("category", slug);
-    if (subcat) url.searchParams.set("subcategory", subcat);
-    url.searchParams.set("_page", String(page));
-    url.searchParams.set("_limit", String(limit));
+    setPage(1); // cuando cambia slug o sub, volvemos a la primera página
+  }, [slug, sub]);
 
-    fetch(url)
-      .then(async (r) => {
-        const data = await r.json();
-        const total = Number(r.headers.get("X-Total-Count") || data.length);
-        setItems(data);
-        setTotalPages(Math.max(1, Math.ceil(total / limit)));
-      })
-      .finally(() => setLoading(false));
-  }, [slug, subcat, page]);
+  useEffect(() => {
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, sub, page]);
+
+  const totalPages = Math.max(1, Math.ceil(total / LIMIT) || 1);
+
+  // Subcategorías dinámicas a partir de lo que vino
+  const subcats = useMemo(() => {
+    const set = new Set(items.map(p => p.subcategory).filter(Boolean));
+    return ["todas", ...Array.from(set)];
+  }, [items]);
 
   return (
-    <section className="container mx-auto max-w-6xl px-4">
-      <h2 className="text-xl font-semibold mb-4">Categoría: {slug.toUpperCase()}</h2>
+    <section>
+      <h1 className="text-xl font-semibold mb-3">Categoría: {slug?.toUpperCase()}</h1>
 
-      {/* Filtros */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        <button
-          className={`btn-outline ${subcat==="" ? "ring-2 ring-indigo-300" : ""}`}
-          onClick={() => setSubcat("")}
-        >
-          Todas
-        </button>
+      {/* Chips de subcategoría */}
+      <div className="flex flex-wrap gap-2 mb-4">
         {subcats.map(s => (
           <button
             key={s}
-            className={`btn-outline capitalize ${subcat===s ? "ring-2 ring-indigo-300" : ""}`}
-            onClick={() => setSubcat(s)}
+            onClick={() => setSub(s)}
+            className={`px-3 py-1.5 rounded-lg border ${sub === s ? "bg-indigo-50 border-indigo-300 text-indigo-700" : "bg-white"}`}
           >
-            {s}
+            {s[0].toUpperCase() + s.slice(1)}
           </button>
         ))}
       </div>
 
       {/* Grilla */}
       {loading ? (
-        <p>Cargando…</p>
+        <p className="text-gray-500">Cargando…</p>
       ) : items.length === 0 ? (
-        <p>No hay productos para este filtro.</p>
+        <p className="text-gray-500">No hay productos para este filtro.</p>
       ) : (
-        <>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {items.map(p => (
-              <article key={p.id} className="card overflow-hidden">
-                <img src={p.image} alt={p.name} className="w-full aspect-[4/3] object-cover" />
-                <div className="p-4">
-                  <h3 className="font-semibold">{p.name}</h3>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="font-bold">${p.price}</span>
-                    <Link to={`/producto/${p.id}`} className="text-indigo-600 hover:underline">Ver</Link>
-                  </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {items.map(p => (
+            <article key={p.id} className="rounded-2xl border bg-white overflow-hidden">
+              <Link to={`/producto/${p.id}`}>
+                <img
+                  src={p.image}
+                  alt={p.name}
+                  className="w-full h-56 object-cover"
+                  loading="lazy"
+                />
+              </Link>
+              <div className="p-3">
+                <h3 className="font-medium">{p.name}</h3>
+                <p className="text-sm text-gray-600">${Number(p.price).toLocaleString("es-AR")}</p>
+                <div className="mt-2">
+                  <Link to={`/producto/${p.id}`} className="text-indigo-600 text-sm">Ver</Link>
                 </div>
-              </article>
-            ))}
-          </div>
-
-          <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
-        </>
+              </div>
+            </article>
+          ))}
+        </div>
       )}
+
+      {/* Paginado */}
+      <div className="flex items-center gap-2 mt-4">
+        <button className="btn-outline" disabled={page <= 1} onClick={() => setPage(p => p - 1)}>
+          Anterior
+        </button>
+        <span className="text-sm text-gray-600">
+          Página {page} de {totalPages}
+        </span>
+        <button className="btn-outline" disabled={page >= totalPages} onClick={() => setPage(p => p + 1)}>
+          Siguiente
+        </button>
+      </div>
     </section>
   );
 }

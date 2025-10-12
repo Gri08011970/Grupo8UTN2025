@@ -1,70 +1,62 @@
 // src/pages/ProductDetailPage.jsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { getProductById } from "../services/products.js";
 import { useCart } from "../context/CartContext.jsx";
-
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
-  const [prod, setProd] = useState(null);
+  const { add } = useCart();
+  const [p, setP] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { addItem } = useCart();
 
   useEffect(() => {
-    let canceled = false;
-
-    async function load() {
-      setLoading(true);
+    let alive = true;
+    (async () => {
       try {
-        // 1) /products/:id directo
-        let r = await fetch(`${API_URL}/products/${id}`);
-        if (r.ok) {
-          const data = await r.json();
-          if (!canceled) setProd(data);
-          return;
-        }
-
-        // 2) /products/:idNum si el id es convertible a número
-        const idNum = Number(id);
-        if (!Number.isNaN(idNum)) {
-          r = await fetch(`${API_URL}/products/${idNum}`);
-          if (r.ok) {
-            const data = await r.json();
-            if (!canceled) setProd(data);
-            return;
-          }
-        }
-
-        // 3) /products?id=... (array) -> tomo el primero
-        r = await fetch(`${API_URL}/products?id=${encodeURIComponent(id)}`);
-        if (r.ok) {
-          const arr = await r.json();
-          if (!canceled) setProd(arr[0] || null);
-        }
+        const data = await getProductById(id);
+        if (alive) setP(data);
+      } catch (e) {
+        console.error(e);
       } finally {
-        if (!canceled) setLoading(false);
+        if (alive) setLoading(false);
       }
-    }
-
-    load();
-    return () => { canceled = true; };
+    })();
+    return () => {
+      alive = false;
+    };
   }, [id]);
 
-  if (loading) return <section className="container mx-auto max-w-6xl px-4">Cargando…</section>;
-  if (!prod) return <section className="container mx-auto max-w-6xl px-4">No encontrado.</section>;
+  if (loading) return <p>Cargando…</p>;
+  if (!p) return <p>Producto no encontrado.</p>;
+
+  const onAdd = () => add(p, 1);
 
   return (
-    <section className="container mx-auto max-w-6xl px-4">
-      <div className="card p-4 grid md:grid-cols-2 gap-6">
-        <img src={prod.image} alt={prod.name} className="w-full rounded-xl border object-cover" />
-        <div>
-          <h1 className="text-2xl font-bold">{prod.name}</h1>
-          <p className="text-gray-600 mt-2">{prod.description}</p>
-          <p className="mt-4 text-xl font-semibold">${prod.price}</p>
-          <button className="btn mt-4" onClick={() => addItem(prod, 1)}>
+    <section className="grid md:grid-cols-2 gap-6">
+      <div className="rounded-2xl overflow-hidden bg-white border">
+        <img
+          src={p.image}
+          alt={p.name}
+          className="w-full h-[480px] object-cover"
+        />
+      </div>
+
+      <div>
+        <h1 className="text-2xl font-semibold mb-2">{p.name}</h1>
+        <p className="text-gray-600 mb-4">{p.description}</p>
+        <p className="text-xl font-bold mb-6">
+          $ {Number(p.price || 0).toLocaleString("es-AR")}
+        </p>
+
+        {/* CONTENEDOR DEL CTA */}
+        <div className="rounded-2xl border bg-white p-4 max-w-sm">
+          <button onClick={onAdd} className="btn-primary w-full">
             Agregar al carrito
           </button>
+          <p className="text-xs text-gray-500 mt-2">
+            Envíos a todo el país. Cambios sin costo dentro de los 30 días.
+          </p>
         </div>
       </div>
     </section>

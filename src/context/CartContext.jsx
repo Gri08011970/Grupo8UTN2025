@@ -1,49 +1,94 @@
-// src/context/CartContext.jsx
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useAuth } from "./AuthContext.jsx";
 
-const LS_KEY = "cart:v1";
-export const CartContext = createContext(null);
+const CartContext = createContext(null);
+
+// una clave por usuario; si no hay user => "guest"
+const keyFor = (email) => `cart:${email || "guest"}`;
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState(() => {
-    try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; }
-    catch { return []; }
-  });
+  const { user } = useAuth();
+  const email = user?.email ?? null;
 
+  const [items, setItems] = useState([]);
+  const prevEmailRef = useRef(email);
+
+  // Cargar carrito cada vez que cambie el email (login/logout)
   useEffect(() => {
-    localStorage.setItem(LS_KEY, JSON.stringify(items));
-  }, [items]);
+    const k = keyFor(email);
+    const raw = localStorage.getItem(k);
+    setItems(raw ? JSON.parse(raw) : []);
+    prevEmailRef.current = email;
+  }, [email]);
 
-  const addItem = (product, qty = 1) => {
-    setItems(prev => {
-      const i = prev.findIndex(x => x.id === product.id);
+  // Guardar carrito bajo la clave del usuario actual
+  useEffect(() => {
+    const k = keyFor(email);
+    localStorage.setItem(k, JSON.stringify(items));
+  }, [items, email]);
+
+  // --- acciones básicas ---
+  const add = (product, qty = 1) =>
+    setItems((prev) => {
+      const i = prev.findIndex((p) => p.id === product.id);
       if (i >= 0) {
         const copy = [...prev];
         copy[i] = { ...copy[i], qty: copy[i].qty + qty };
         return copy;
       }
-      const { id, name, price, image } = product;
-      return [...prev, { id, name, price, image, qty }];
+      return [...prev, { ...product, qty }];
     });
+
+  const setQty = (id, qty) =>
+    setItems((prev) => prev.map((p) => (p.id === id ? { ...p, qty: Math.max(1, qty) } : p)));
+
+  const increase = (id) =>
+    setItems((prev) => prev.map((p) => (p.id === id ? { ...p, qty: p.qty + 1 } : p)));
+
+  const decrease = (id) =>
+    setItems((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, qty: Math.max(1, p.qty - 1) } : p))
+    );
+
+  const removeItem = (id) => setItems((prev) => prev.filter((p) => p.id !== id));
+
+  // Limpia el carrito en memoria y opcionalmente en storage
+  const clearCart = (purgeStorage = false) => {
+    setItems([]);
+    if (purgeStorage) {
+      localStorage.removeItem(keyFor(email));
+    }
   };
 
-  const updateQty = (id, qty) => {
-    setItems(prev => {
-      if (qty <= 0) return prev.filter(x => x.id !== id);
-      return prev.map(x => (x.id === id ? { ...x, qty } : x));
-    });
+  // Limpia el carrito de guest en storage (para que no “herede” cosas un usuario nuevo)
+  const clearGuestCart = () => {
+    localStorage.removeItem(keyFor(null));
   };
 
-  const removeItem = (id) => setItems(prev => prev.filter(x => x.id !== id));
-  const clear = () => setItems([]);
+  const count = items.reduce((a, b) => a + b.qty, 0);
+  const total = items.reduce((a, b) => a + b.qty * (b.price ?? 0), 0);
 
-  const { count, subtotal } = useMemo(() => ({
-    count: items.reduce((a, b) => a + b.qty, 0),
-    subtotal: items.reduce((a, b) => a + b.qty * (Number(b.price) || 0), 0),
-  }), [items]);
+  const value = useMemo(
+    () => ({
+      items,
+      add,
+      setQty,
+      increase,
+      decrease,
+      removeItem,
+      clearCart,
+      clearGuestCart,
+      count,
+      total,
+    }),
+    [items, email]
+  );
 
-  const value = { items, addItem, updateQty, removeItem, clear, count, subtotal };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
 
-export const useCart = () => useContext(CartContext);
+export function useCart() {
+  const ctx = useContext(CartContext);
+  if (!ctx) throw new Error("useCart debe usarse dentro de <CartProvider>");
+  return ctx;
+}
