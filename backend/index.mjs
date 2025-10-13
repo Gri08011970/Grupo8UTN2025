@@ -230,7 +230,8 @@ app.post("/api/orders", (req, res, next) => {
 });
 
 // ---------- MONTAR JSON-SERVER (una sola vez) ----------
-app.use("/api", middlewares, router);
+app.use("/api", jsonServer.defaults(), jsonServer.router(path.join(__dirname, "..", "db.json")));
+
 
 // ---------- SERVIR FRONT (build de Vite) ----------
 

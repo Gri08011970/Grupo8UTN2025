@@ -248,6 +248,38 @@
       "createdAt": "2025-10-13T11:44:19.945Z",
       "customerName": "Gri Molina",
       "id": "WUWP3h1"
+    },
+    {
+      "customer": "Gri Molina",
+      "email": "griselmolina1970@gmail.com",
+      "total": 321000,
+      "items": [
+        {
+          "id": 302,
+          "name": "Bermuda Denim Hombre",
+          "price": 27000,
+          "qty": 4,
+          "image": "/images/hombre/bermudas/bermuda-02.webp"
+        },
+        {
+          "id": 306,
+          "name": "Jeans Relaxed Hombre",
+          "price": 35500,
+          "qty": 3,
+          "image": "/images/hombre/jeans/jeans-03.webp"
+        },
+        {
+          "id": 333,
+          "name": "Jeans Relaxed Unisex",
+          "price": 35500,
+          "qty": 3,
+          "image": "/images/unisex/jeans/jeans-03.webp"
+        }
+      ],
+      "status": "pendiente",
+      "createdAt": "2025-10-13T23:18:50.658Z",
+      "customerName": "Gri Molina",
+      "id": "uKVYCqS"
     }
   ],
   "products": [
@@ -262,7 +294,7 @@
     },
     {
       "name": "Bermuda Cargo Hombre",
-      "price": 27000,
+      "price": 28000,
       "category": "hombre",
       "subcategory": "bermudas",
       "image": "/images/hombre/bermudas/bermuda-03.webp",
