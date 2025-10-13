@@ -115,26 +115,6 @@
       "id": "mcEGr66"
     },
     {
-      "customerName": "Gri Molina",
-      "customer": "Gri Molina",
-      "name": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "phone": "",
-      "total": 36000,
-      "items": [
-        {
-          "id": 305,
-          "name": "Jeans Slim Hombre",
-          "price": 36000,
-          "qty": 1,
-          "image": "/images/hombre/jeans/jeans-02.webp"
-        }
-      ],
-      "status": "pagado",
-      "createdAt": "2025-10-11T02:38:19.306Z",
-      "id": "XJoD4Dj"
-    },
-    {
       "customerName": "Grupo 8 UTN",
       "customer": "Grupo 8 UTN",
       "name": "Grupo 8 UTN",
@@ -167,29 +147,11 @@
           "image": "/images/mujer/vestidos/vestido-05.webp"
         }
       ],
-      "status": "pendiente",
+      "status": "enviado",
       "createdAt": "2025-10-11T02:59:11.354Z",
       "phone": "1555885853",
       "customerName": "Grupo 8 UTN",
       "id": "GtgvYfI"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 71000,
-      "items": [
-        {
-          "id": 306,
-          "name": "Jeans Relaxed Hombre",
-          "price": 35500,
-          "qty": 2,
-          "image": "/images/hombre/jeans/jeans-03.webp"
-        }
-      ],
-      "status": "pagado",
-      "createdAt": "2025-10-11T02:59:29.074Z",
-      "customerName": "Gri Molina",
-      "id": "6E2FJU2"
     },
     {
       "customer": "Silvia Albornoz",
@@ -201,85 +163,6 @@
       "phone": "1566998574",
       "customerName": "Silvia Albornoz",
       "id": "l0bNOiP"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 201800,
-      "items": [
-        {
-          "id": 316,
-          "name": "Jeans Slim Mujer",
-          "price": 35000,
-          "qty": 5,
-          "image": "/images/mujer/jeans/jeans-01.webp"
-        },
-        {
-          "id": 335,
-          "name": "Bermuda Denim Unisex",
-          "price": 26800,
-          "qty": 1,
-          "image": "/images/unisex/bermudas/bermuda-02.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-12T06:58:03.591Z",
-      "customerName": "Gri Molina",
-      "id": "sXWHl1N"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 51000,
-      "items": [
-        {
-          "id": 314,
-          "name": "Bermuda Denim Mujer",
-          "price": 25500,
-          "qty": 2,
-          "image": "/images/mujer/bermudas/bermudas-02.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-12T14:18:26.361Z",
-      "customerName": "Gri Molina",
-      "id": "-xcDhOb"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 36000,
-      "items": [
-        {
-          "id": 305,
-          "name": "Jeans Slim Hombre",
-          "price": 36000,
-          "qty": 1,
-          "image": "/images/hombre/jeans/jeans-02.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-12T14:19:41.529Z",
-      "customerName": "Gri Molina",
-      "id": "Oq7vQkp"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 25500,
-      "items": [
-        {
-          "id": 314,
-          "name": "Bermuda Denim Mujer",
-          "price": 25500,
-          "qty": 1,
-          "image": "/images/mujer/bermudas/bermudas-02.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-12T14:20:50.920Z",
-      "customerName": "Gri Molina",
-      "id": "EvnNW-d"
     },
     {
       "customer": "Grupo 8 UTN",
@@ -301,49 +184,6 @@
       "id": "w0WfIWu"
     },
     {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 27000,
-      "items": [
-        {
-          "id": 315,
-          "name": "Bermuda Cargo Mujer",
-          "price": 27000,
-          "qty": 1,
-          "image": "/images/mujer/bermudas/bermudas-03.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-13T02:48:49.858Z",
-      "customerName": "Gri Molina",
-      "id": "mRDtd3W"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 63000,
-      "items": [
-        {
-          "id": 313,
-          "name": "Bermuda Gabardina Mujer",
-          "price": 26000,
-          "qty": 1,
-          "image": "/images/mujer/bermudas/bermudas-01.webp"
-        },
-        {
-          "id": 317,
-          "name": "Jeans Mom Mujer",
-          "price": 37000,
-          "qty": 1,
-          "image": "/images/mujer/jeans/jeans-02.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-13T02:55:54.331Z",
-      "customerName": "Gri Molina",
-      "id": "pFeGRm_"
-    },
-    {
       "customer": "Mariano Martínez",
       "email": "marian@gmail.com",
       "total": 569000,
@@ -353,6 +193,61 @@
       "phone": "1545889752",
       "customerName": "Mariano Martínez",
       "id": "fdXdiA9"
+    },
+    {
+      "customer": "Grupo 8 UTN",
+      "email": "admin@tienda.com",
+      "total": 27000,
+      "items": [
+        {
+          "id": 321,
+          "name": "Remera Estampada Mujer",
+          "price": 27000,
+          "qty": 1,
+          "image": "/images/mujer/remeras/remera-03.webp"
+        }
+      ],
+      "status": "pendiente",
+      "createdAt": "2025-10-13T10:27:42.365Z",
+      "phone": "1555885853",
+      "customerName": "Grupo 8 UTN",
+      "id": "TPFv2Jl"
+    },
+    {
+      "customer": "Gri Molina",
+      "email": "griselmolina1970@gmail.com",
+      "total": 60000,
+      "items": [
+        {
+          "id": 343,
+          "name": "Gorras unisex",
+          "price": 15000,
+          "qty": 4,
+          "image": "/images/unisex/gorras/gorra-02.webp"
+        }
+      ],
+      "status": "pendiente",
+      "createdAt": "2025-10-13T11:16:29.224Z",
+      "customerName": "Gri Molina",
+      "id": "O8EIvUs"
+    },
+    {
+      "customer": "Gri Molina",
+      "email": "griselmolina1970@gmail.com",
+      "total": 16000,
+      "items": [
+        {
+          "id": 328,
+          "name": "Remera Básica Unisex",
+          "price": 16000,
+          "qty": 1,
+          "image": "/images/unisex/remeras/remera-01.webp"
+        }
+      ],
+      "status": "pendiente",
+      "createdAt": "2025-10-13T11:44:19.945Z",
+      "customerName": "Gri Molina",
+      "id": "WUWP3h1"
     }
   ],
   "products": [
@@ -402,13 +297,13 @@
       "description": "Tiro medio, fit relaxed"
     },
     {
-      "id": 307,
       "name": "Remera Básica Hombre",
-      "price": 15000,
+      "price": 20000,
       "category": "hombre",
       "subcategory": "remeras",
       "image": "/images/hombre/remeras/remera-01.webp",
-      "description": "Algodón peinado, slim fit"
+      "description": "Algodón peinado, slim fit",
+      "id": 307
     },
     {
       "id": 308,
@@ -528,13 +423,13 @@
       "description": "Corte amplio y cómodo"
     },
     {
-      "id": 321,
       "name": "Remera Estampada Mujer",
-      "price": 17000,
+      "price": 27000,
       "category": "mujer",
       "subcategory": "remeras",
       "image": "/images/mujer/remeras/remera-03.webp",
-      "description": "Estampa frontal, tejido liviano"
+      "description": "Estampa frontal, tejido liviano. Última disponible",
+      "id": 321
     },
     {
       "id": 322,
@@ -742,6 +637,15 @@
       "image": "/images/mujer/jeans/jeans-04.webp",
       "description": "Súper cómodos...son para vos!!!",
       "id": 344
+    },
+    {
+      "name": "Mallas enteras",
+      "price": 25000,
+      "category": "mujer",
+      "subcategory": "mallas",
+      "image": "/images/mujer/mallas/malla-01.webp",
+      "description": "",
+      "id": 345
     }
   ],
   "users": [

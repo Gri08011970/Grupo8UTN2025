@@ -3,7 +3,7 @@ import morgan from "morgan";
 import jsonServer from "json-server";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import fs from "fs";
+import fs, { existsSync } from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { body, validationResult } from "express-validator";
@@ -12,9 +12,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------- ENV ----------
-const PORT        = Number(process.env.PORT || 4001);
-const ORIGIN      = process.env.ORIGIN || "http://localhost:5173";
-const JWT_SECRET  = process.env.JWT_SECRET || "dev-secret";
+const PORT = Number(process.env.PORT || 4001);
+const FRONT_ORIGIN = process.env.FRONT_ORIGIN || "";              // prod (Static Site)
+const LOCAL_ORIGIN = "http://localhost:5173";                      // dev (Vite)
+const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
 const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "admin@tienda.com").toLowerCase();
 
 // ---------- APP ----------
@@ -22,17 +23,18 @@ const app = express();
 
 // ---------- CORS (incluye preflight) ----------
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", ORIGIN);
-  res.header("Access-Control-Allow-Credentials", "true");
+  const allowed = [FRONT_ORIGIN, LOCAL_ORIGIN].filter(Boolean);
+  const origin = req.headers.origin;
+
+  if (!origin || allowed.includes(origin)) {
+    res.header("Access-Control-Allow-Origin", origin || allowed[0] || "*");
+    res.header("Access-Control-Allow-Credentials", "true");
+  }
   res.header("Access-Control-Allow-Methods", "GET,POST,PUT,PATCH,DELETE,OPTIONS");
-
   const requested = req.header("Access-Control-Request-Headers");
-  res.header(
-    "Access-Control-Allow-Headers",
-    requested || "Content-Type, Authorization"
-  );
-
+  res.header("Access-Control-Allow-Headers", requested || "Content-Type, Authorization");
   res.header("Vary", "Origin");
+
   if (req.method === "OPTIONS") return res.sendStatus(204);
   next();
 });
@@ -65,7 +67,7 @@ function authRequired(req, res, next) {
     const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded; // { id, email, role, name }
     next();
-  } catch (e) {
+  } catch {
     return res.status(401).json({ message: "Token inválido" });
   }
 }
@@ -137,7 +139,6 @@ app.post(
       const ok = await bcrypt.compare(password, user.password);
       if (!ok) return res.status(401).json({ message: "Credenciales inválidas" });
 
-      // Aseguramos/forzamos rol admin si coincide con ADMIN_EMAIL
       const role = emailL === ADMIN_EMAIL ? "admin" : (user.role || "user");
       if (role !== user.role) {
         db.get("users").find({ email: emailL }).assign({ role }).write();
@@ -173,7 +174,6 @@ const validateProduct = [
   validateOr400,
 ];
 
-// 👉 ESTADOS (agrego "cancelado")
 const STATUS = ["pendiente", "pagado", "enviado", "cancelado"];
 
 const validateOrderCreateOrPut = [
@@ -212,29 +212,40 @@ app.use("/api", (req, res, next) => {
   return next();
 });
 
-// ---------- Validaciones ANTES del router ----------
+// Validaciones ANTES del router
 app.post("/api/products", authRequired, adminOnly, validateProduct, (req, res, next) => next());
 app.put("/api/products/:id", authRequired, adminOnly, validateProduct, (req, res, next) => next());
 app.patch("/api/products/:id", authRequired, adminOnly, validateProduct, (req, res, next) => next());
 
-// Orders: create/put/patch con sus validaciones
 app.post("/api/orders", authRequired, validateOrderCreateOrPut, (req, res, next) => next());
 app.put("/api/orders/:id", authRequired, adminOnly, validateOrderCreateOrPut, (req, res, next) => next());
 app.patch("/api/orders/:id", authRequired, adminOnly, validateOrderStatusPatch, (req, res, next) => next());
 app.delete("/api/orders/:id", authRequired, adminOnly, (req, res, next) => next());
 
-// ---------- Hook para setear createdAt y customerName al crear orden ----------
+// Completar createdAt y customerName al crear orden
 app.post("/api/orders", (req, res, next) => {
-  // si no viene, lo completamos
   if (!req.body.createdAt) req.body.createdAt = new Date().toISOString();
   if (!req.body.customerName) req.body.customerName = req.body.customer || "";
   next();
 });
 
-// ---------- MONTAR JSON-SERVER ----------
+// ---------- MONTAR JSON-SERVER (una sola vez) ----------
 app.use("/api", middlewares, router);
 
-// ---------- MANEJO DE ERRORES A ARCHIVO ----------
+// ---------- SERVIR FRONT (build de Vite) ----------
+
+const distPath = path.join(__dirname, "..", "dist");
+
+if (existsSync(distPath)) {
+  app.use(express.static(distPath));
+  // Fallback SPA: todo lo que no sea /api sirve index.html
+  app.get("*", (req, res, next) => {
+    if (req.path.startsWith("/api")) return next();
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+}
+
+// ---------- ERRORES ----------
 app.use((err, req, res, next) => {
   const line = `[${new Date().toISOString()}] ${req.method} ${req.url} :: ${err.stack || err}\n`;
   fs.appendFile(path.join(logsDir, "error.log"), line, () => {});

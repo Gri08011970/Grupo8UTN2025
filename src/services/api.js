@@ -1,6 +1,9 @@
 // src/services/api.js
+// usa /api en producción y localhost en dev
 export const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:4001/api";
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.DEV ? "http://localhost:4001/api" : "/api");
+
 
 // Une base + path y evita duplicar "api/api"
 function joinURL(base, path) {
