@@ -4,7 +4,7 @@ export default function Footer() {
     <footer className="mt-12 border-t bg-white">
       <div className="container mx-auto max-w-6xl px-4 py-6 text-sm text-gray-600 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <p className="order-2 md:order-1">
-          © 2025 <span className="font-semibold">RopaShop</span> — Diplomatura MERN (UTN) 
+          © 2025 <span className="font-semibold">RopaShop</span> — Diplomatura Desarrollo Web Fullstack I (UTN) 
         </p>
 
         <div className="order-1 md:order-2 flex items-center gap-4">
@@ -26,7 +26,7 @@ export default function Footer() {
             decoding="async"
           />
           <span>
-            ♥ Integrantes:   <span className="text-pink-600" aria-hidden></span>  Axel · Magalí · Diego · Daniela · Griselda.
+            ♥ Integrantes:   <span className="text-pink-600" aria-hidden></span>  Axel · Magalí · Diego · Daniela · Griselda./ Profesor Axel Leonardi
           </span>
         </div>
       </div>
