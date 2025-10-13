@@ -3,70 +3,119 @@ import { useAuth } from "./AuthContext.jsx";
 
 const CartContext = createContext(null);
 
-// una clave por usuario; si no hay user => "guest"
+// storage key por usuario (o "guest")
 const keyFor = (email) => `cart:${email || "guest"}`;
 
+// lectura segura de localStorage
+function readCart(key) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+// merge por id sumando cantidades
+function mergeItems(a = [], b = []) {
+  const map = new Map();
+  [...a, ...b].forEach((p) => {
+    const prev = map.get(p.id);
+    if (prev) {
+      map.set(p.id, { ...prev, qty: (Number(prev.qty) || 0) + (Number(p.qty) || 0) });
+    } else {
+      map.set(p.id, { ...p, qty: Number(p.qty) || 1 });
+    }
+  });
+  return [...map.values()];
+}
+
 export function CartProvider({ children }) {
-  const { user } = useAuth();
-  const email = user?.email ?? null;
+  const auth = useAuth(); // no desestructurar directo, puede ser null al inicio
+  const email = auth?.user?.email ?? null;
 
   const [items, setItems] = useState([]);
   const prevEmailRef = useRef(email);
 
-  // Cargar carrito cada vez que cambie el email (login/logout)
+  // Manejo de cambios de identidad (guest ↔ user)
   useEffect(() => {
-    const k = keyFor(email);
-    const raw = localStorage.getItem(k);
-    setItems(raw ? JSON.parse(raw) : []);
+    const prevEmail = prevEmailRef.current;
+
+    // Primera carga
+    if (prevEmail === email && items.length === 0) {
+      setItems(readCart(keyFor(email)));
+      return;
+    }
+
+    // guest -> login (migrar guest al usuario)
+    if (prevEmail == null && email) {
+      const guest = readCart(keyFor(null));
+      const user = readCart(keyFor(email));
+      const merged = mergeItems(user, guest);
+      setItems(merged);
+      localStorage.setItem(keyFor(email), JSON.stringify(merged));
+      localStorage.removeItem(keyFor(null)); // limpiar guest para no “volver” después
+    }
+    // user -> logout (volver a mostrar carrito de guest si existía)
+    else if (prevEmail && email == null) {
+      setItems(readCart(keyFor(null)));
+    }
+    // cambio de usuario A -> usuario B
+    else if (prevEmail && email && prevEmail !== email) {
+      setItems(readCart(keyFor(email)));
+    }
+
     prevEmailRef.current = email;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
-  // Guardar carrito bajo la clave del usuario actual
+  // Persistencia continua bajo la clave del usuario actual
   useEffect(() => {
-    const k = keyFor(email);
-    localStorage.setItem(k, JSON.stringify(items));
+    localStorage.setItem(keyFor(email), JSON.stringify(items));
   }, [items, email]);
 
-  // --- acciones básicas ---
+  // --- acciones ---
   const add = (product, qty = 1) =>
     setItems((prev) => {
       const i = prev.findIndex((p) => p.id === product.id);
       if (i >= 0) {
         const copy = [...prev];
-        copy[i] = { ...copy[i], qty: copy[i].qty + qty };
+        copy[i] = { ...copy[i], qty: Number(copy[i].qty || 0) + Number(qty || 1) };
         return copy;
       }
-      return [...prev, { ...product, qty }];
+      return [...prev, { ...product, qty: Number(qty) || 1 }];
     });
 
   const setQty = (id, qty) =>
-    setItems((prev) => prev.map((p) => (p.id === id ? { ...p, qty: Math.max(1, qty) } : p)));
+    setItems((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, qty: Math.max(1, Number(qty) || 1) } : p))
+    );
 
   const increase = (id) =>
-    setItems((prev) => prev.map((p) => (p.id === id ? { ...p, qty: p.qty + 1 } : p)));
+    setItems((prev) => prev.map((p) => (p.id === id ? { ...p, qty: Number(p.qty || 0) + 1 } : p)));
 
   const decrease = (id) =>
     setItems((prev) =>
-      prev.map((p) => (p.id === id ? { ...p, qty: Math.max(1, p.qty - 1) } : p))
+      prev.map((p) =>
+        p.id === id ? { ...p, qty: Math.max(1, Number(p.qty || 1) - 1) } : p
+      )
     );
 
   const removeItem = (id) => setItems((prev) => prev.filter((p) => p.id !== id));
 
-  // Limpia el carrito en memoria y opcionalmente en storage
+  // Limpia el carrito actual y opcionalmente su storage
   const clearCart = (purgeStorage = false) => {
     setItems([]);
-    if (purgeStorage) {
-      localStorage.removeItem(keyFor(email));
-    }
+    if (purgeStorage) localStorage.removeItem(keyFor(email));
   };
 
-  // Limpia el carrito de guest en storage (para que no “herede” cosas un usuario nuevo)
+  // Limpia explícitamente el carrito guest (por si querés “resetear” antes de un login)
   const clearGuestCart = () => {
     localStorage.removeItem(keyFor(null));
   };
 
-  const count = items.reduce((a, b) => a + b.qty, 0);
-  const total = items.reduce((a, b) => a + b.qty * (b.price ?? 0), 0);
+  const count = items.reduce((a, b) => a + (Number(b.qty) || 0), 0);
+  const total = items.reduce((a, b) => a + (Number(b.qty) || 0) * (Number(b.price) || 0), 0);
 
   const value = useMemo(
     () => ({

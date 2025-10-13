@@ -186,7 +186,7 @@
           "image": "/images/hombre/jeans/jeans-03.webp"
         }
       ],
-      "status": "pendiente",
+      "status": "pagado",
       "createdAt": "2025-10-11T02:59:29.074Z",
       "customerName": "Gri Molina",
       "id": "6E2FJU2"
@@ -301,15 +301,58 @@
       "id": "w0WfIWu"
     },
     {
-      "customer": "Patricia Licona",
-      "email": "patri@gmail.com",
-      "total": 0,
+      "customer": "Gri Molina",
+      "email": "griselmolina1970@gmail.com",
+      "total": 27000,
+      "items": [
+        {
+          "id": 315,
+          "name": "Bermuda Cargo Mujer",
+          "price": 27000,
+          "qty": 1,
+          "image": "/images/mujer/bermudas/bermudas-03.webp"
+        }
+      ],
+      "status": "pendiente",
+      "createdAt": "2025-10-13T02:48:49.858Z",
+      "customerName": "Gri Molina",
+      "id": "mRDtd3W"
+    },
+    {
+      "customer": "Gri Molina",
+      "email": "griselmolina1970@gmail.com",
+      "total": 63000,
+      "items": [
+        {
+          "id": 313,
+          "name": "Bermuda Gabardina Mujer",
+          "price": 26000,
+          "qty": 1,
+          "image": "/images/mujer/bermudas/bermudas-01.webp"
+        },
+        {
+          "id": 317,
+          "name": "Jeans Mom Mujer",
+          "price": 37000,
+          "qty": 1,
+          "image": "/images/mujer/jeans/jeans-02.webp"
+        }
+      ],
+      "status": "pendiente",
+      "createdAt": "2025-10-13T02:55:54.331Z",
+      "customerName": "Gri Molina",
+      "id": "pFeGRm_"
+    },
+    {
+      "customer": "Mariano Martínez",
+      "email": "marian@gmail.com",
+      "total": 569000,
       "status": "pagado",
       "items": [],
-      "createdAt": "2025-10-12T17:18:53.226Z",
-      "phone": "1548965742",
-      "customerName": "Patricia Licona",
-      "id": "Fuuz9nx"
+      "createdAt": "2025-10-13T03:02:51.259Z",
+      "phone": "1545889752",
+      "customerName": "Mariano Martínez",
+      "id": "fdXdiA9"
     }
   ],
   "products": [
@@ -681,6 +724,24 @@
       "image": "/images/mujer/vestidos/vestido-05.webp",
       "description": "Bello por donde lo mires!!  No te lo pierdas",
       "id": 342
+    },
+    {
+      "name": "Gorras unisex",
+      "price": 15000,
+      "category": "unisex",
+      "subcategory": "gorras",
+      "image": "/images/unisex/gorras/gorra-02.webp",
+      "description": "colección primavera - verano",
+      "id": 343
+    },
+    {
+      "name": "Jeans cargo",
+      "price": 25800,
+      "category": "mujer",
+      "subcategory": "jeans",
+      "image": "/images/mujer/jeans/jeans-04.webp",
+      "description": "Súper cómodos...son para vos!!!",
+      "id": 344
     }
   ],
   "users": [
