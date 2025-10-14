@@ -12,7 +12,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // ---------- ENV ----------
-const PORT = Number(process.env.PORT || 4001);
+const PORT = Number(process.env.PORT ||8080);
 const FRONT_ORIGIN = process.env.FRONT_ORIGIN || "";              // prod (Static Site)
 const LOCAL_ORIGIN = "http://localhost:5173";                      // dev (Vite)
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret";
