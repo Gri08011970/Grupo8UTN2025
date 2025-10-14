@@ -130,7 +130,7 @@
           "image": "/images/unisex/jeans/jeans-02.webp"
         }
       ],
-      "status": "cancelado",
+      "status": "pagado",
       "createdAt": "2025-10-11T02:39:10.514Z",
       "id": "UY0hwWF"
     },
@@ -248,38 +248,6 @@
       "createdAt": "2025-10-13T11:44:19.945Z",
       "customerName": "Gri Molina",
       "id": "WUWP3h1"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 321000,
-      "items": [
-        {
-          "id": 302,
-          "name": "Bermuda Denim Hombre",
-          "price": 27000,
-          "qty": 4,
-          "image": "/images/hombre/bermudas/bermuda-02.webp"
-        },
-        {
-          "id": 306,
-          "name": "Jeans Relaxed Hombre",
-          "price": 35500,
-          "qty": 3,
-          "image": "/images/hombre/jeans/jeans-03.webp"
-        },
-        {
-          "id": 333,
-          "name": "Jeans Relaxed Unisex",
-          "price": 35500,
-          "qty": 3,
-          "image": "/images/unisex/jeans/jeans-03.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-13T23:18:50.658Z",
-      "customerName": "Gri Molina",
-      "id": "uKVYCqS"
     }
   ],
   "products": [
@@ -357,11 +325,11 @@
     },
     {
       "name": "Short Deportivo Hombre",
-      "price": 32000,
+      "price": 35000,
       "category": "hombre",
       "subcategory": "shorts",
       "image": "/images/hombre/shorts/shorts-04.webp",
-      "description": "Tejido respirable, cintura elastizada...Últimas 3 unidades disponebles!!!",
+      "description": "Tejido respirable, cintura elastizada...Últimas 3 unidades disponibles!!!",
       "id": 310
     },
     {
