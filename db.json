@@ -207,7 +207,7 @@
           "image": "/images/mujer/remeras/remera-03.webp"
         }
       ],
-      "status": "pendiente",
+      "status": "enviado",
       "createdAt": "2025-10-13T10:27:42.365Z",
       "phone": "1555885853",
       "customerName": "Grupo 8 UTN",
@@ -244,10 +244,21 @@
           "image": "/images/unisex/remeras/remera-01.webp"
         }
       ],
-      "status": "pendiente",
+      "status": "enviado",
       "createdAt": "2025-10-13T11:44:19.945Z",
       "customerName": "Gri Molina",
       "id": "WUWP3h1"
+    },
+    {
+      "customer": "Claudia Molina",
+      "email": "clau1970@gmail.com",
+      "total": 85000,
+      "status": "enviado",
+      "items": [],
+      "createdAt": "2025-10-14T22:04:15.279Z",
+      "phone": "1523659565",
+      "customerName": "Claudia Molina",
+      "id": "-HaUK0u"
     }
   ],
   "products": [
@@ -646,6 +657,15 @@
       "image": "/images/mujer/mallas/malla-01.webp",
       "description": "",
       "id": 345
+    },
+    {
+      "name": "Mallas colores",
+      "price": 30000,
+      "category": "Mujer",
+      "subcategory": "mallas",
+      "image": "/images/mujer/mallas/malla-02.webp",
+      "description": "colección verano 2026",
+      "id": 346
     }
   ],
   "users": [
@@ -721,6 +741,14 @@
       "email": "grimolina@gmail.com",
       "password": "$2b$10$krcIsXbmrpp85GYb2wTXxusr495fReiuU/gUoQLlNMs9w1sCVaZBi",
       "phone": "1154269875",
+      "role": "user"
+    },
+    {
+      "id": "c43c",
+      "name": "Carlos Medina",
+      "email": "car123@gmail.com",
+      "password": "$2b$10$qQtGS2Lf7vY5UP8k4gMB7uS/Xz7QNDIRDUdbYClLmNiX3I7a/m2Ce",
+      "phone": "1548796523",
       "role": "user"
     }
   ]
