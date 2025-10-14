@@ -254,6 +254,6 @@ app.use((err, req, res, next) => {
 });
 
 // ---------- START ----------
-app.listen(PORT, () => {
-  console.log(`API escuchando en http://localhost:${PORT}/api`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`API escuchando en http://localhost:${PORT}/api (PORT env=${process.env.PORT || 'n/a'})`);
 });
