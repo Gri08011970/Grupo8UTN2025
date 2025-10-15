@@ -180,8 +180,8 @@ La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de 
 ### 01 Home/sesión ok (SPA + navegación)
 
 ![Home](docs/capturas/01-home.png)
-![con sesión iniciada como usuario común](docs\capturas\01-conSesión.png)
-![con sesión iniciada como admin](docs\capturas\01-conSesiónAdmin.png)
+![con sesión iniciada como usuario común](docs/capturas/01-conSesion.png)
+![con sesión iniciada como admin](docs/capturas/01-conSesionAdmin.png)
 
 - Se ve la portada con categorís.
 - Barra superior con enlaces a _Carrito_, _Login_, _Registro_ (si no hay sesión) o _Salir_ (si hay sesión), si sesión admin: se ve compras y productos. Si sesión ok: saludo en nav.

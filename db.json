@@ -657,15 +657,6 @@
       "image": "/images/mujer/mallas/malla-01.webp",
       "description": "",
       "id": 345
-    },
-    {
-      "name": "Mallas colores",
-      "price": 30000,
-      "category": "Mujer",
-      "subcategory": "mallas",
-      "image": "/images/mujer/mallas/malla-02.webp",
-      "description": "colección verano 2026",
-      "id": 346
     }
   ],
   "users": [
