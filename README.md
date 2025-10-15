@@ -188,55 +188,55 @@ La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de 
 
 ### 02 Registro (signup con validación)
 
-![Registro](docs\capturas\02-formRegistro.png)
-![rta 201 + login ](docs\capturas\02-rta201LoginInmediato.png)
+![Registro](docs/capturas/02-formRegistro.png)
+![rta 201 + login ](docs/capturas/02-rta201LoginInmediato.png)
 
 - Form con validaciones básicas.
 - Tras registrarse: respuesta 201 y login inmediato (token en storage).
 
 ### 03 vista de productos
 
-![categoría mujer](docs\capturas\03-ProductosCategoriaMujer.png)
-![categoría hombre](docs\capturas\03-ProductosCategoriaHombre.png)
-![categoría unisex](docs\capturas\03-ProductosCategoriaUnisex.png)
+![categoría mujer](docs/capturas/03-ProductosCategoriaMujer.png)
+![categoría hombre](docs/capturas/03-ProductosCategoriaHombre.png)
+![categoría unisex](docs/capturas/03-ProductosCategoriaUnisex.png)
 
 ### 04 Productos nuevos + listado + form autocopletado para editar + alerta eliminar (ABMC vista admin)
 
-![Productos ABMC](docs\capturas\04-formProductos-Listado-Crear.png)
+![Productos ABMC](docs/capturas/04-formProductos-Listado-Crear.png)
 
 - Listado con paginado (si aplica).
 - Acciones **Editar** / **Eliminar** y botón **Crear producto**.
-  ![Autocompletado para editar un productos ABMC](docs\capturas\04-formAutoCompletadoParaEditar.png)
-  ![Alerta eliminar producto ABMC](docs\capturas\04-alertaEliminar.png)
+  ![Autocompletado para editar un productos ABMC](docs/capturas/04-formAutoCompletadoParaEditar.png)
+  ![Alerta eliminar producto ABMC](docs/capturas/04-alertaEliminar.png)
 
 ### 05 Crear producto (validaciones)
 
-![Crear producto](docs\capturas\05-crearProductoCamposObligatorios.png)
+![Crear producto](docs/capturas/05-crearProductoCamposObligatorios.png)
 
 - Alta con campos requeridos y mensajes de error si faltan datos.
 - Imagen con ruta pública `public/images/...`.
 
 ### 06 Editar producto (update OK)
 
-![Editar producto](docs\capturas\06-editarProducto-200Red.png)
-![Editar producto](docs\capturas\06-editarProductoRespuesta200Red.png)
+![Editar producto](docs/capturas/06-editarProducto-200Red.png)
+![Editar producto](docs/capturas/06-editarProductoRespuesta200Red.png)
 
 - Se modifica precio/descripcion y se ve reflejado en la grilla.
 - Respuesta 200 en red.
 
 ### 07 Eliminar producto (delete OK)
 
-![producto a eliminar Bermuda Gabardina Hombre](docs\capturas\07-productoEliminarBermudaGabardinaHombre.png)
-![producto eliminado + rta RED](docs\capturas\07-productoEliminadoRespuestaRed.png)
-![producto desaparecido del listado](docs\capturas\07-desapariciónProductoDelListado.png)
+![producto a eliminar Bermuda Gabardina Hombre](docs/capturas/07-productoEliminarBermudaGabardinaHombre.png)
+![producto eliminado + rta RED](docs/capturas/07-productoEliminadoRespuestaRed.png)
+![producto desaparecido del listado](docs/capturas/07-desapariciónProductoDelListado.png)
 
 - Confirmación y eliminación.
 - Respuesta 200/204 y desaparición del i­tem en listado.
 
 ### 08 Carrito (agregar, sumar/restar, quitar)
 
-![Carrito](docs\capturas\08-carrito.png)
-![producto agregado al carrito/cantidad](docs\capturas\08-productoAgregadoCarrito.png)
+![Carrito](docs/capturas/08-carrito.png)
+![producto agregado al carrito/cantidad](docs/capturas/08-productoAgregadoCarrito.png)
 
 - Agregar desde detalle/listado, cambiar cantidades, quitar item.
 - Totales correctos y persistencia (localStorage).
@@ -244,15 +244,15 @@ La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de 
 
 ### 09 Checkout (user logueado)
 
-![Checkout](docs\capturas\09-checkout.png)
-![Compra finalizada](docs\capturas\09-comprafinalizada.png)
+![Checkout](docs/capturas/09-checkout.png)
+![Compra finalizada](docs/capturas/09-comprafinalizada.png)
 
 - Datos pre-rellenados (nombre/email), teléfono opcional.
 - Al finalizar: orden creada, carrito vací­o, banner de éxito.
 
 ### 10 Compras (ABMC admin)
 
-![Compras listado](docs\capturas\10-comprasListado.png)
+![Compras listado](docs/capturas/10-comprasListado.png)
 -Botón para CREAR COMPRA (ejemplo realizada x whasapp)
 
 - Columnas: Cliente/Fecha/email/teléfono/total/Estado y acción eliminar visibles.
@@ -261,16 +261,16 @@ La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de 
 
 ### 11 Cambio de estado (PATCH)
 
-![Cambios de estado](docs\capturas\11-cambioestadoDesplegable.png)
-![respuesta en RED (200)](docs\capturas\11-Red200.png)
+![Cambios de estado](docs/capturas/11-cambioestadoDesplegable.png)
+![respuesta en RED (200)](docs/capturas/11-Red200.png)
 
 - Desplegable cambia a `pagado`/`enviado`/`cancelado`.
 - Ver en pestaña en RED: la solicitud **PATCH /orders/:id** 200.
 
 ### 12 Crear compra manual (POST)
 
-![Compra manual](docs\capturas\12-modalCompraManual.png)
-![Compra manual ok: Red = 201](docs\capturas\12-compraManualRed201.png)
+![Compra manual](docs/capturas/12-modalCompraManual.png)
+![Compra manual ok: Red = 201](docs/capturas/12-compraManualRed201.png)
 
 - Modal con **Cliente**, **Email**, **Teléfono**, **Total** y **Estado**.
 - Guardar **POST /orders** 201 y aparece en listado.
