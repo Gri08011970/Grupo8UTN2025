@@ -207,7 +207,7 @@ La Matriz de cumplimiento está en la sección:Evidencias de este README.
 
 ## Evidencias (capturas)
 
-> Nota: Las capturas estÃ¡n en `docs/capturas/`. En cada una indicamos lo que se verifica según la consigna.
+> Nota: Las capturas están en `docs/capturas/`. En cada una indicamos lo que se verifica según la consigna.
 
 ### 01 Home/sesión ok (SPA + navegación)
 
@@ -260,7 +260,7 @@ La Matriz de cumplimiento está en la sección:Evidencias de este README.
 
 ![producto a eliminar Bermuda Gabardina Hombre](docs/capturas/07-productoEliminarBermudaGabardinaHombre.png)
 ![producto eliminado + rta RED](docs/capturas/07-productoEliminadoRespuestaRed.png)
-![producto desaparecido del listado](docs/capturas/07-desapariciónProductoDelListado.png)
+![producto desaparecido del listado](docs/capturas/07-desaparicionProductoDelListado.png)
 
 - Confirmación y eliminación.
 - Respuesta 200/204 y desaparición del i­tem en listado.
