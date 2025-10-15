@@ -180,7 +180,7 @@ La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de 
 ### 01 Home/sesión ok (SPA + navegación)
 
 ![Home](docs/capturas/01-home.png)
-![con sesión iniciada como usuario común](docs\capturas\01-conSesionAdmin.png)
+![con sesión iniciada como usuario común](docs\capturas\01-conSesion.png)
 ![con sesión iniciada como admin](docs/capturas/01-conSesionAdmin.png)
 
 - Se ve la portada con categorís.
