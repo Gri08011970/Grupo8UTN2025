@@ -1,175 +1,207 @@
-\*Single Page App (SPA) con ABMC de Productos, ABMC de Compras, Carrito + Checkout, AutenticaciÃ³n JWT (roles admin / user) y logs a archivo.
+# Grupo8UTN2025 — Tienda (SPA + API). Para Diplomatura Desarrollo Web I 2025.
 
-\*Frontend (Vite + React + Tailwind): http://localhost:5173
+Single Page App (Vite + React + Tailwind) con backend Node/Express + json-server, autenticación **JWT** (roles *admin* / *user*), carrito con checkout, **ABMC** de productos y compras, validaciones y **logs a archivo**.
 
-\*Backend (Node + Express + json-server): http://localhost:4001
-(ej: https://api.midominio.com/api)
+- **Frontend (Vite + React)**: `/` (local: `http://localhost:5173`)
+- **Backend (Node + Express)**: `/api` (local: `http://localhost:4001/api`)
 
-**_Cuentas de prueba_**
+## Cuentas de prueba
 
-*Admin
-Email: admin@tienda.com
-Password: utn123
-*Usuario
-Email: griselmolina1970
+**Admin**  
+Email: `admin@tienda.com`  
+Password: `utn123`
+
+**Usuario**  
+Email: `griselmolina1970@gmail.com`  
 Password: Juan1970
 
-**_ correr localmente_**
+---
+## Correr localmente
 
-\*Requisitos: Node 18+. # 1) Instalar deps
+**Requisitos**: Node 20.x (o 22.12+).  
+1) Instalar dependencias  
+```bash
 npm install
 
-     # 2) Variables de entorno
+Crear .env en la raíz (valores por defecto recomendados):
+PORT=4001
+ORIGIN=http://localhost:5173
+JWT_SECRET=dev-secret
+ADMIN_EMAIL=admin@tienda.com
 
-     # crear un .env en la raÃ­z con:
-        *PORT=4001
-        *ORIGIN=http://localhost:5173
-        *JWT_SECRET=dev-secret
-        *ADMIN_EMAIL=admin@tienda.com
+Levantar frontend + backend en paralelo
+npm run dev
+# WEB: http://localhost:5173
+# API: http://localhost:4001/api
 
-      # 3) Levantar front + back juntos
-          *npm run dev
-          * WEB: http://localhost:5173
-          * API: http://localhost:4001/api
+Logs: logs/access.log (accesos) y logs/error.log (errores)
+Datos (json-server): db.json
 
-\*\*\*Logs: se escriben en logs/access.log (accesos) y logs/error.log (errores).
-Datos: la base estÃ¡ en db.json.
+Variables de entorno (Deploy)
+Backend
 
-**_ Variables de entorno (deploy)_**
+PORT → provisto por el hosting .
 
-     *Backend:
+ORIGIN → URL pública del front (si front por el mismo servidor entonces se  puede omitir).
 
-       .PORT=4001
-       .ORIGIN=<FRONTEND_URL>
-       .JWT_SECRET=<un-secreto-seguro>
-       .ADMIN_EMAIL=<admin@tienda.com>
+JWT_SECRET → valor aleatorio y largo.
 
-     *Frontend (Vite):
+ADMIN_EMAIL → admin@tienda.com .
 
-        .VITE_API_URL=<BACKEND_URL>/api
+Frontend (Vite)
 
-**_­ Rutas principales (Front)_**
+Si el front se sirve desde el mismo dominio que el backend, no definir VITE_API_URL y el cliente usará "/api".
 
-     / â€” Home (categorÃ­as y navegaciÃ³n SPA)
-     /categoria/:cat â€” Listado por categorÃ­a/subcategorÃ­a
-     /producto/:id â€” Detalle de producto
-     /carrito â€” Carrito + Checkout
-     /login, /signup
-     /admin/productos â€” ABMC Productos
-     /admin/compras â€” ABMC Compras (con Cliente, Fecha, Estado y paginado)
+Si el backend está en otro dominio, define:
+VITE_API_URL=https://tu-backend/publico/api
 
-**_ API (resumen)_**
+ ## Deploy (Railway)
 
-     .Auth
-     .POST /api/auth/signup â€” registro (200/201)
-     .POST /api/auth/login â€” login â†’ { token, user }
-     .POST /api/auth/logout â€” 204
-     .GET /api/profile â€” datos del usuario (requiere JWT)
-     .Productos (admin)
-     .GET /api/products?_page=1&_limit=20
-     .POST /api/products â€” crear
-     .PUT /api/products/:id / PATCH /api/products/:id â€” actualizar
-     .DELETE /api/products/:id â€” borrar
-     .Compras (orders)
-     .GET /api/orders?_page=1&_limit=20&status=pending|pagado|enviado|cancelado
-     .POST /api/orders â€” crear pedido (requiere login)
-     .Payload esperado:
+Proyecto publicado en **Railway** (Front + API en el mismo servicio):
+
+- **URL pública:** http://grupo8utn2025-production.up.railway.app/
+- **Base de API (desde el front):** `/api`  
+  > No hace falta definir `VITE_API_URL` en producción: el cliente usa `"/api"` por defecto.
+
+### Variables de entorno en Railway (Service → Variables)
+
+Backend:
+- `JWT_SECRET` → (valor largo y aleatorio)
+- `ADMIN_EMAIL` → `admin@tienda.com`
+- *(opcional)* `ORIGIN` → no necesario cuando el front se sirve en el mismo dominio
+
+> Railway asigna `PORT` automáticamente; **no** lo fijes vos.
+
+### Build & Start (Service → Settings)
+- **Build Command:** `npm install && npm run build`
+- **Start Command:** `npm start`
+
+Esto compila el front (Vite) a `dist/` y Express lo sirve como estático, además de montar la API bajo `/api`.
+
+### Notas de uso
+- En planes gratuitos, el servicio puede “dormir”; el primer acceso puede demorar unos segundos.
+- Las imágenes deben existir en `public/images/...` y las rutas en `db.json` deben empezar por `/images/...` (ej.: `/images/mujer/remeras/remera-04.webp`).
+- Si cambiás imágenes o `db.json`, hacé **commit + push** a `main` para que Railway redepliegue.
+
+
+Rutas principales (Front)
+
+/ — Home (categorías y accesos)
+
+/categoria/:cat — Listado por categoría (paginado)
+
+/producto/:id — Detalle
+
+/carrito — Carrito + Checkout (requiere login para finalizar)
+
+/login, /signup
+
+/admin/productos — ABMC Productos (admin)
+
+/admin/compras — ABMC Compras: columnas Cliente/Fecha/Email/Teléfono/Total/Estado, filtro por estado, paginación, cambio de estado (PATCH) y alta manual (POST).
+
+API (resumen)
+
+Auth
+
+POST /api/auth/signup
+
+POST /api/auth/login → { token, user } (JWT expira en 7d)
+
+POST /api/auth/logout → 204
+
+GET /api/profile (requiere JWT)
+
+Productos (admin para escribir)
+
+GET /api/products?_page=1&_limit=20&_sort=createdAt&_order=desc
+
+POST /api/products
+
+PUT/PATCH /api/products/:id
+
+DELETE /api/products/:id
+
+Compras (orders)
+
+GET /api/orders?_page=1&_limit=20&status=pending|pagado|enviado|cancelado
+
+POST /api/orders (login requerido) — payload:
 
 {
-"customer": "Nombre Apellido",
-"email": "user@mail.com",
-"phone": "opcional",
-"total": 12345,
-"items": [{"id":1,"name":"...", "price":1000, "qty":2}],
-"status": "pendiente"
+  "customer": "Nombre Apellido",
+  "email": "user@mail.com",
+  "phone": "opcional",
+  "total": 12345,
+  "items": [{"id":1, "name":"...", "price":1000, "qty":2}],
+  "status": "pendiente"
 }
 
-    .PATCH /api/orders/:id â€” cambiar estado (admin)
-    .Body: { "status": "pagado|enviado|cancelado|pendiente" }
-    .DELETE /api/orders/:id â€” eliminar (admin)
+PATCH /api/orders/:id — { "status": "pagado|enviado|cancelado|pendiente" }
 
-\*\*\*El front no envÃ­a headers raros. Solo Authorization: Bearer <token> (inyectado por apiFetch).
+DELETE /api/orders/:id (admin)
 
-**_ Funcionalidades implementadas_**
+El cliente solo envía Authorization: Bearer <token> cuando corresponde.
 
-         *SPA + navegaciÃ³n con React Router
+Imágenes
 
-         .Carrito persistente (localStorage): agregar / sumar / restar / quitar
-         .Checkout con datos prellenados, guarda telÃ©fono de contacto
-         .Orden generada desde el checkout (user logueado)
-         .ABMC Productos (admin): crear/editar/eliminar, validaciones
-         .ABMC Compras (admin):
-         .columnas Cliente y Fecha
-         .filtro por estado (pendiente/pagado/enviado/cancelado/todos)
-         .cambio de estado con PATCH /orders/:id
-         .creaciÃ³n manual de compras con POST /orders
-         .paginado con _page/_limit
-         .Logger a archivo (logs/access.log y logs/error.log)
-         .CORS configurado (preflight incluido)
-
-**_Estilos_**
-
-      .Tailwind:
-         v4, en src/styles/index.css:
-         @import "tailwindcss";
-
-**_imágenes_**
-
-Guardar en public/images/... y referenciar desde la data como rutas absolutas pÃºblicas:
+colocarlas  en public/images/... y referencia desde db.json con rutas absolutas:
 
 /images/mujer/vestidos/vestido-01.webp
 /images/hombre/bermudas/bermuda-03.webp
 
-\*\*\*En caso de 404/imagen rota, verificar el path real en public y que en db.json la ruta comience con /images/....
+Estructura (resumen)
 
-**_Estructura (resumen)_**
 /backend
-index.mjs
-db.json
+  index.mjs
+/db.json
 /logs
-access.log
-error.log
+  access.log
+  error.log
 /src
-/components
-/context
-AuthContext.jsx
-CartContext.jsx
-/pages
-HomePage.jsx
-CartPage.jsx
-AdminProductsPage.jsx
-AdminOrdersPage.jsx
-/services
-api.js
-products.js
-orders.js
-profile.js
-/styles
-index.css
-public/
-images/...
-docs/
-capturas/...
+  /components
+  /context
+    AuthContext.jsx
+    CartContext.jsx
+  /pages
+    HomePage.jsx
+    CategoryDetailPage.jsx
+    ProductDetailPage.jsx
+    CartPage.jsx
+    AdminProductsPage.jsx
+    AdminOrdersPage.jsx
+  /services
+    api.js
+    auth.js
+    products.js
+    orders.js
+    profile.js
+  /styles
+    index.css
+/public
+  /images/...
+/docs
+  /capturas/...
+
 
 **_Evidencias & Matriz de cumplimiento_**
 
-\*En docs/capturas incluimos capturas para cada punto de la consigna (home, registro/login, ABMC productos, carrito/checkout, ABMC compras, cambio de estado, compra manual y logs).
-La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de este README.
+\*En docs/capturas incluimos capturas para cada punto de la consigna (home, registro/login, ABMC productos, carrito/checkout, ABMC compras, cambio de estado, compra manual).
+La Matriz de cumplimiento está en la sección:Evidencias de este README.
 
 **_ Consigna - Evidencia _**
 
        # Matriz de cumplimiento#
 
-. Backend: JWT (Login/Registro) (02, 03)  
-. Backend: CRUD entidad principal (Productos) | 04, 05, 06, 07 |
+. Backend: JWT (Login/Registro) (02)  
+. Backend: CRUD entidad principal (Productos) | 03 |
 . Backend: CRUD entidad soporte (Compras) | 10, 11, 12 |
 . Backend: Validaciones | 02, 05, 12 (errores visibles) |
-. Backend: Logger a archivo (13)
 . Backend: Relaciones (orden con items y total) | 09 (checkout crea orden con items/total) |
-. Backend: PaginaciÃ³n | 10 (parte inferior: â€œPÃ¡gina 1 de Xâ€) |
-. Frontend: SPA + navegaciÃ³n (01)
-. Frontend: ABMC (Productos/Compras) |(04â€“07 y 10â€“12 )
-. Frontend: Hooks (useState/useEffect/useContext/useNavigate) | CÃ³digo (context + pages), visible en README â€œEstructuraâ€ |
+. Backend: Paginación | 04 , 10 (parte inferior) |
+. Frontend: SPA + navegación (01)
+. Frontend: ABMC (Productos/Compras) |(01 )
+. Frontend: Hooks (useState/useEffect/useContext/useNavigate) 
 . Frontend: Carrito + Checkout (08, 09)
 .Deploy y README (ambos) | Enlaces y variables en README |
 
@@ -275,7 +307,8 @@ La Matriz de cumplimiento estÃ¡n en la secciÃ³n â€œEvidenciasâ€ de 
 - Modal con **Cliente**, **Email**, **Teléfono**, **Total** y **Estado**.
 - Guardar **POST /orders** 201 y aparece en listado.
 
+
 **_Créditos_**
 
-Grupo 8  Diplomatura MERN (UTN)
+Grupo 8  Diplomatura Desarrollo Web I 2025 (UTN)
 Integrantes: Axel · Magalí · Diego · Daniela · Griselda
