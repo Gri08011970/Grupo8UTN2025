@@ -26,7 +26,7 @@ export default function Footer() {
             decoding="async"
           />
           <span>
-            ♥ Integrantes:   <span className="text-pink-600" aria-hidden></span>  Axel · Magalí · Diego · Daniela · Griselda./ Profesor Axel Leonardi
+            ♥ Integrantes:   <span className="text-pink-600" aria-hidden></span>  Axel · Magalí · Diego · Daniela · Mauro . Griselda./ Profesor Axel Leonardi
           </span>
         </div>
       </div>
