@@ -1,314 +1,202 @@
-# Grupo8UTN2025 — Tienda (SPA + API). Para Diplomatura Desarrollo Web I 2025.
+# Grupo 8 – UTN CUDI – Tienda (SPA + API)
+### Diplomatura Desarrollo Web I – 2025
 
-Single Page App (Vite + React + Tailwind) con backend Node/Express + json-server, autenticación **JWT** (roles *admin* / *user*), carrito con checkout, **ABMC** de productos y compras, validaciones y **logs a archivo**.
-
-- **Frontend (Vite + React)**: `/` (local: `http://localhost:5173`)
-- **Backend (Node + Express)**: `/api` (local: `http://localhost:4001/api`)
-
-## Cuentas de prueba
-
-**Admin**  
-Email: `admin@tienda.com`  
-Password: `utn123`
-
-**Usuario**  
-Email: `griselmolina1970@gmail.com`  
-Password: Juan1970
+**Resumen:** Proyecto full‑stack con frontend SPA (Vite + React) y backend API (Node + Express). La **persistencia principal es MongoDB Atlas** vía Mongoose. Se mantiene un **modo alternativo JSON** solo para práctica/offline.
 
 ---
-## Correr localmente
 
-**Requisitos**: Node 20.x (o 22.12+).  
-1) Instalar dependencias  
-```bash
-npm install
+## Tecnologías utilizadas
+- **Frontend:** Vite + React
+- **Backend:** Node.js + Express
+- **Base de datos (principal):** MongoDB Atlas (Mongoose)
+- **Autenticación:** JWT (signup/login), rol `admin` por `ADMIN_EMAIL`
+- **Scripts:** Migración desde `db.json` a Mongo
 
-Crear .env en la raíz (valores por defecto recomendados):
+---
+
+## Comandos rápidos
+
+| Tarea | Comando |
+|------|---------|
+| Instalar dependencias | `npm install` |
+| Ejecutar en **Mongo (dev)** | `npm run dev` |
+| Migración **simulada** (JSON→Mongo) | `npm run migrate:json:dry` |
+| Migración **real** (JSON→Mongo) | `npm run migrate:json` |
+| Build (si aplica) | `npm run build` |
+
+---
+
+## Configuración de entorno (`.env`)
+
+> **Mongo es el modo principal.** Solo definí `MONGO_URL` y dejá `USE_MONGO=true`.
+
+```env
+USE_MONGO=true
+MONGO_URL=mongodb+srv://<usuario>:<password>@<cluster>/<nombreDB>?retryWrites=true&w=majority
 PORT=4001
-ORIGIN=http://localhost:5173
-JWT_SECRET=dev-secret
+FRONT_ORIGIN=http://localhost:5173
+VITE_API_URL=http://localhost:4001/api
+JWT_SECRET=dev-super-secret
 ADMIN_EMAIL=admin@tienda.com
+```
 
-Levantar frontend + backend en paralelo
-npm run dev
-# WEB: http://localhost:5173
-# API: http://localhost:4001/api
+## Cómo correr el proyecto (Mongo — modo principal)
 
-Logs: logs/access.log (accesos) y logs/error.log (errores)
-Datos (json-server): db.json
+1. Crear `.env` con las variables de arriba (pegá tu `MONGO_URL` de Atlas).  
+2. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+3. Levantar entorno de desarrollo (API + Web):
+   ```bash
+   npm run dev
+   ```
+4. Verificar en consola del API:
+   ```
+   MongoDB conectado
+   API escuchando en http://localhost:4001/api (USE_MONGO=true)
+   ```
+5. Navegar:
+   - **Web**: `http://localhost:5173`
+   - **API**: `http://localhost:4001/api/products`
 
-Variables de entorno (Deploy)
-Backend
+---
 
-PORT → provisto por el hosting .
+## Migración de datos desde `db.json` → Mongo
 
-ORIGIN → URL pública del front (si front por el mismo servidor entonces se  puede omitir).
+- **Simulación (no escribe):**
+  ```bash
+  npm run migrate:json:dry
+  ```
+- **Migración real:**
+  ```bash
+  npm run migrate:json
+  ```
+Esto crea/actualiza colecciones `users`, `products`, `orders`.
 
-JWT_SECRET → valor aleatorio y largo.
+---
 
-ADMIN_EMAIL → admin@tienda.com .
+## Modo alternativo JSON (opcional)
 
-Frontend (Vite)
+> Solo para práctica/offline. 
 
-Si el front se sirve desde el mismo dominio que el backend, no definir VITE_API_URL y el cliente usará "/api".
+En `.env` podés conmutar:
 
-Si el backend está en otro dominio, define:
-VITE_API_URL=https://tu-backend/publico/api
+```env
+USE_MONGO=false
+VITE_API_URL=http://localhost:4001/api
+```
 
- ## Deploy (Railway)
+Luego `npm run dev`.
 
-Proyecto publicado en **Railway** (Front + API en el mismo servicio):
+---
 
-- **URL pública:** http://grupo8utn2025-production.up.railway.app/
-- **Base de API (desde el front):** `/api`  
-  > No hace falta definir `VITE_API_URL` en producción: el cliente usa `"/api"` por defecto.
+## 📷 Evidencias del funcionamiento (con MongoDB)
 
-### Variables de entorno en Railway (Service → Variables)
+### 01. Sesión de usuario y admin
+![01-conSesion](docs/capturas/01-conSesion.png)
+![01-conSesionAdmin](docs/capturas/01-conSesionadmin.png)
 
-Backend:
-- `JWT_SECRET` → (valor largo y aleatorio)
-- `ADMIN_EMAIL` → `admin@tienda.com`
-- *(opcional)* `ORIGIN` → no necesario cuando el front se sirve en el mismo dominio
+### 01c. Home
+![01-home](docs/capturas/01-home.png)
 
-> Railway asigna `PORT` automáticamente; **no** lo fijes vos.
+### 02. Registro y login
+![02-formRegistro](docs/capturas/02-formregistro.png)
+![02-rta201LoginInmediato](docs/capturas/02-rta201logininmediato.png)
 
-### Build & Start (Service → Settings)
-- **Build Command:** `npm install && npm run build`
-- **Start Command:** `npm start`
+### 03. Productos por categoría
+![03-ProductosCategoriaHombre](docs/capturas/03-productoscategoriahombre.png)
+![03-ProductosCategoriaMujer](docs/capturas/03-productoscategoriamujer.png)
+![03-ProductosCategoriaUnisex](docs/capturas/03-productoscategoriaunisex.png)
 
-Esto compila el front (Vite) a `dist/` y Express lo sirve como estático, además de montar la API bajo `/api`.
+### 04. Alta/Edición y eliminación
+![04-alertaEliminar](docs/capturas/04-alertaeliminar.png)
+![04-formAutoCompletadoParaEditar](docs/capturas/04-formautocompletadoparaeditar.png)
+![04-formProductos-Listado-Crear](docs/capturas/04-formproductos-listado-crear.png)
 
-### Notas de uso
-- En planes gratuitos, el servicio puede “dormir”; el primer acceso puede demorar unos segundos.
-- Las imágenes deben existir en `public/images/...` y las rutas en `db.json` deben empezar por `/images/...` (ej.: `/images/mujer/remeras/remera-04.webp`).
-- Si cambiás imágenes o `db.json`, hacé **commit + push** a `main` para que Railway redepliegue.
+### 05. Validaciones en creación de producto
+![05-crearProductoCamposObligatorios](docs/capturas/05-crearproductocamposobligatorios.png)
 
+### 06. Edición confirmada
+![06-editarProducto-200Red](docs/capturas/06-editarproducto-200red.png)
+![06-editarProductoRespuesta200Red](docs/capturas/06-editarproductorespuesta200red.png)
 
-Rutas principales (Front)
+### 07. Eliminación reflejada en listado
+![07-desaparicionProductoDelListado](docs/capturas/07-desaparicionproductodellistado.png)
+![07-productoEliminadoRespuestaRed](docs/capturas/07-productoeliminadorespuestared.png)
+![07-productoEliminarBermudaGabardinaHombre](docs/capturas/07-productoeliminarbermudagabardinahombre.png)
 
-/ — Home (categorías y accesos)
+### 08. Carrito
+![08-carrito](docs/capturas/08-carrito.png)
+![08-productoAgregadoCarrito](docs/capturas/08-productoagregadocarrito.png)
 
-/categoria/:cat — Listado por categoría (paginado)
+### 09. Checkout
+![09-checkout](docs/capturas/09-checkout.png)
+![09-comprafinalizada](docs/capturas/09-comprafinalizada.png)
 
-/producto/:id — Detalle
+### 10. Compras (listado)
+![10-comprasListado](docs/capturas/10-compraslistado.png)
 
-/carrito — Carrito + Checkout (requiere login para finalizar)
+### 11. Cambios de estado
+![11-cambioestadoDesplegable](docs/capturas/11-cambioestadodesplegable.png)
+![11-Red200](docs/capturas/11-red200.png)
 
-/login, /signup
+### 12. Compra manual
+![12-compraManualRed201](docs/capturas/12-compramanualred201.png)
+![12-modalCompraManual](docs/capturas/12-modalcompramanual.png)
 
-/admin/productos — ABMC Productos (admin)
+### 13. **MongoDB conectado (modo principal)**
+![13-MongiDBconectado](docs/capturas/13-mongodbconectado.png)
 
-/admin/compras — ABMC Compras: columnas Cliente/Fecha/Email/Teléfono/Total/Estado, filtro por estado, paginación, cambio de estado (PATCH) y alta manual (POST).
+---
 
-API (resumen)
+## Credenciales de prueba
 
-Auth
+**Admin**
+- Email: `admin@tienda.com`
+- Password: `utn123`
 
-POST /api/auth/signup
+**Usuario**
+- Email: `griselmolina1970@gmail.com`
+- Password: `Juan1970`
 
-POST /api/auth/login → { token, user } (JWT expira en 7d)
+> Recordatorio: el rol admin se asigna al email configurado en `ADMIN_EMAIL` del `.env`.
 
-POST /api/auth/logout → 204
+---
 
-GET /api/profile (requiere JWT)
+## Estructura del proyecto (resumen)
 
-Productos (admin para escribir)
-
-GET /api/products?_page=1&_limit=20&_sort=createdAt&_order=desc
-
-POST /api/products
-
-PUT/PATCH /api/products/:id
-
-DELETE /api/products/:id
-
-Compras (orders)
-
-GET /api/orders?_page=1&_limit=20&status=pending|pagado|enviado|cancelado
-
-POST /api/orders (login requerido) — payload:
-
-{
-  "customer": "Nombre Apellido",
-  "email": "user@mail.com",
-  "phone": "opcional",
-  "total": 12345,
-  "items": [{"id":1, "name":"...", "price":1000, "qty":2}],
-  "status": "pendiente"
-}
-
-PATCH /api/orders/:id — { "status": "pagado|enviado|cancelado|pendiente" }
-
-DELETE /api/orders/:id (admin)
-
-El cliente solo envía Authorization: Bearer <token> cuando corresponde.
-
-Imágenes
-
-colocarlas  en public/images/... y referencia desde db.json con rutas absolutas:
-
-/images/mujer/vestidos/vestido-01.webp
-/images/hombre/bermudas/bermuda-03.webp
-
-Estructura (resumen)
-
-/backend
+```
+backend/
   index.mjs
-/db.json
-/logs
-  access.log
-  error.log
-/src
-  /components
-  /context
-    AuthContext.jsx
-    CartContext.jsx
-  /pages
-    HomePage.jsx
-    CategoryDetailPage.jsx
-    ProductDetailPage.jsx
-    CartPage.jsx
-    AdminProductsPage.jsx
-    AdminOrdersPage.jsx
-  /services
-    api.js
-    auth.js
-    products.js
-    orders.js
-    profile.js
-  /styles
-    index.css
-/public
-  /images/...
-/docs
-  /capturas/...
+  db.mjs
+  models/
+    user.mjs
+    product.mjs
+    order.mjs
+  routes/
+    mongoRouter.mjs
 
+public/
+  images/
 
-**_Evidencias & Matriz de cumplimiento_**
+scripts/
+  migrate-from-json.mjs
 
-\*En docs/capturas incluimos capturas para cada punto de la consigna (home, registro/login, ABMC productos, carrito/checkout, ABMC compras, cambio de estado, compra manual).
-La Matriz de cumplimiento está en la sección:Evidencias de este README.
+src/
+  ... (Vite + React)
 
-**_ Consigna - Evidencia _**
+docs/
+  capturas/
+    (ver imágenes referenciadas en minúsculas)
 
-       # Matriz de cumplimiento#
+.env
+```
 
-. Backend: JWT (Login/Registro) (02)  
-. Backend: CRUD entidad principal (Productos) | 03 |
-. Backend: CRUD entidad soporte (Compras) | 10, 11, 12 |
-. Backend: Validaciones | 02, 05, 12 (errores visibles) |
-. Backend: Relaciones (orden con items y total) | 09 (checkout crea orden con items/total) |
-. Backend: Paginación | 04 , 10 (parte inferior) |
-. Frontend: SPA + navegación (01)
-. Frontend: ABMC (Productos/Compras) |(01 )
-. Frontend: Hooks (useState/useEffect/useContext/useNavigate) 
-. Frontend: Carrito + Checkout (08, 09)
-.Deploy y README (ambos) | Enlaces y variables en README |
+---
 
-## Evidencias (capturas)
+## Créditos
 
-> Nota: Las capturas están en `docs/capturas/`. En cada una indicamos lo que se verifica según la consigna.
-
-### 01 Home/sesión ok (SPA + navegación)
-
-![Home](docs/capturas/01-home.png)
-![con sesión iniciada como usuario común](docs/capturas/01-conSesion.png)
-![con sesión iniciada como admin](docs/capturas/01-conSesionAdmin.png)
-
-- Se ve la portada con categorís.
-- Barra superior con enlaces a _Carrito_, _Login_, _Registro_ (si no hay sesión) o _Salir_ (si hay sesión), si sesión admin: se ve compras y productos. Si sesión ok: saludo en nav.
-
-### 02 Registro (signup con validación)
-
-![Registro](docs/capturas/02-formRegistro.png)
-![rta 201 + login ](docs/capturas/02-rta201LoginInmediato.png)
-
-- Form con validaciones básicas.
-- Tras registrarse: respuesta 201 y login inmediato (token en storage).
-
-### 03 vista de productos
-
-![categoría mujer](docs/capturas/03-ProductosCategoriaMujer.png)
-![categoría hombre](docs/capturas/03-ProductosCategoriaHombre.png)
-![categoría unisex](docs/capturas/03-ProductosCategoriaUnisex.png)
-
-### 04 Productos nuevos + listado + form autocopletado para editar + alerta eliminar (ABMC vista admin)
-
-![Productos ABMC](docs/capturas/04-formProductos-Listado-Crear.png)
-
-- Listado con paginado (si aplica).
-- Acciones **Editar** / **Eliminar** y botón **Crear producto**.
-  ![Autocompletado para editar un productos ABMC](docs/capturas/04-formAutoCompletadoParaEditar.png)
-  ![Alerta eliminar producto ABMC](docs/capturas/04-alertaEliminar.png)
-
-### 05 Crear producto (validaciones)
-
-![Crear producto](docs/capturas/05-crearProductoCamposObligatorios.png)
-
-- Alta con campos requeridos y mensajes de error si faltan datos.
-- Imagen con ruta pública `public/images/...`.
-
-### 06 Editar producto (update OK)
-
-![Editar producto](docs/capturas/06-editarProducto-200Red.png)
-![Editar producto](docs/capturas/06-editarProductoRespuesta200Red.png)
-
-- Se modifica precio/descripcion y se ve reflejado en la grilla.
-- Respuesta 200 en red.
-
-### 07 Eliminar producto (delete OK)
-
-![producto a eliminar Bermuda Gabardina Hombre](docs/capturas/07-productoEliminarBermudaGabardinaHombre.png)
-![producto eliminado + rta RED](docs/capturas/07-productoEliminadoRespuestaRed.png)
-![producto desaparecido del listado](docs/capturas/07-desaparicionProductoDelListado.png)
-
-- Confirmación y eliminación.
-- Respuesta 200/204 y desaparición del i­tem en listado.
-
-### 08 Carrito (agregar, sumar/restar, quitar)
-
-![Carrito](docs/capturas/08-carrito.png)
-![producto agregado al carrito/cantidad](docs/capturas/08-productoAgregadoCarrito.png)
-
-- Agregar desde detalle/listado, cambiar cantidades, quitar item.
-- Totales correctos y persistencia (localStorage).
-- se ve la cantidad de productos que el usuario agregó (carrito)
-
-### 09 Checkout (user logueado)
-
-![Checkout](docs/capturas/09-checkout.png)
-![Compra finalizada](docs/capturas/09-comprafinalizada.png)
-
-- Datos pre-rellenados (nombre/email), teléfono opcional.
-- Al finalizar: orden creada, carrito vací­o, banner de éxito.
-
-### 10 Compras (ABMC admin)
-
-![Compras listado](docs/capturas/10-comprasListado.png)
--Botón para CREAR COMPRA (ejemplo realizada x whasapp)
-
-- Columnas: Cliente/Fecha/email/teléfono/total/Estado y acción eliminar visibles.
-- Filtro por estado (pendiente/pagado/enviado/cancelado/todos).
-- Paginación `_page/_limit`.
-
-### 11 Cambio de estado (PATCH)
-
-![Cambios de estado](docs/capturas/11-cambioestadoDesplegable.png)
-![respuesta en RED (200)](docs/capturas/11-Red200.png)
-
-- Desplegable cambia a `pagado`/`enviado`/`cancelado`.
-- Ver en pestaña en RED: la solicitud **PATCH /orders/:id** 200.
-
-### 12 Crear compra manual (POST)
-
-![Compra manual](docs/capturas/12-modalCompraManual.png)
-![Compra manual ok: Red = 201](docs/capturas/12-compraManualRed201.png)
-
-- Modal con **Cliente**, **Email**, **Teléfono**, **Total** y **Estado**.
-- Guardar **POST /orders** 201 y aparece en listado.
-
-
-**_Créditos_**
-
-Grupo 8  Diplomatura Desarrollo Web I 2025 (UTN)
-Integrantes: Axel · Magalí · Diego · Daniela · Griselda
+**Grupo 8 — Diplomatura Desarrollo Web I 2025 (UTN)**  
+**Integrantes:** Axel · Magalí · Diego · Daniela · Griselda  
+**Profesor:** Axel Leonardi

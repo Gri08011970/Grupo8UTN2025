@@ -1,4 +1,3 @@
-// src/components/Footer.jsx...Somos GRUPO 8
 export default function Footer() {
   return (
     <footer className="mt-12 border-t bg-white">

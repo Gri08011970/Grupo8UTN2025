@@ -1,4 +1,3 @@
-// src/services/products.js
 import { API_URL, apiFetch } from "./api.js";
 
 /* Devuelve: { items, total, totalPages }
@@ -44,7 +43,7 @@ export async function getProducts(params = {}) {
 export async function getProductById(id) {
   return apiFetch(`/products/${encodeURIComponent(id)}`);
 }
-// Alias que ya importaban en otro lado
+// Alias que ya importabamos 
 export const getProduct = getProductById;
 
 /** CRUD admin */

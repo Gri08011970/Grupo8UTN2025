@@ -1,5 +1,3 @@
-// src/services/profile.js
-
 // Clave en localStorage por email
 const KEY = (email) => `profile:${(email || "").toLowerCase()}`;
 
@@ -20,7 +18,7 @@ export function getProfile(email) {
 
 /**
  * Guarda/actualiza el perfil (name/phone) para un email.
- * Mergea con lo previo para no perder campos.
+
  * @param {{email:string, name?:string, phone?:string}} param0
  */
 export function saveProfile({ email, name, phone }) {

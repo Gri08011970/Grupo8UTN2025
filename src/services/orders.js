@@ -1,7 +1,4 @@
-// src/services/orders.js
 import { apiFetch, API_URL } from "./api.js";
-
-
 
 export async function getOrders({ page = 1, limit = 9, status } = {}) {
   const qs = new URLSearchParams();
@@ -28,9 +25,6 @@ export async function getOrders({ page = 1, limit = 9, status } = {}) {
     return { items, total };
   }
 
-  // Fallback: el backend ignoró _page/_limit (o no es json-server).
-  // Traemos TODO y paginamos a mano.
-  // Si además filtran por estado, filtramos antes de paginar.
   if (status) items = items.filter((o) => o.status === status);
   const total = items.length;
   const start = (page - 1) * limit;

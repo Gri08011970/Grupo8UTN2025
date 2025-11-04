@@ -1,4 +1,3 @@
-// src/pages/CartPage.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
@@ -29,7 +28,7 @@ export default function CartPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const bannerRef = useRef(null);
 
-  // Prefill a partir de sesión + perfil guardado
+  // Perfil a partir de sesión + perfil guardado
   useEffect(() => {
     const uName = user?.name?.trim?.() || "";
     const uEmail = user?.email?.trim?.() || "";

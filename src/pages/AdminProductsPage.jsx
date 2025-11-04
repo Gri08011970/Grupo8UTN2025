@@ -1,4 +1,3 @@
-// src/pages/AdminProductsPage.jsx
 import { useEffect, useState } from "react";
 import * as api from "../services/products.js";
 import Pagination from "../components/Pagination.jsx";

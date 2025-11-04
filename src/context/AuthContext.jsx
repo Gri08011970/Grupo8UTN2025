@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { login as apiLogin, signup as apiSignup, logout as apiLogout, getSavedAuth, isAdminUser } from "../services/auth";
 

@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx     Somos GRUPO 8
 import { Link, NavLink } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";

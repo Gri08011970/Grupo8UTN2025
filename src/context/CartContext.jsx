@@ -109,7 +109,7 @@ export function CartProvider({ children }) {
     if (purgeStorage) localStorage.removeItem(keyFor(email));
   };
 
-  // Limpia explícitamente el carrito guest (por si querés “resetear” antes de un login)
+  // Limpia explícitamente el carrito guest 
   const clearGuestCart = () => {
     localStorage.removeItem(keyFor(null));
   };
