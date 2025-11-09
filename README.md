@@ -146,7 +146,7 @@ Luego `npm run dev`.
 ![12-modalCompraManual](docs/capturas/12-modalCompraManual.png)
 
 ### 13. MongoDB conectado (modo principal)
-![13-MongoDBconectado](docs/capturas/13-MongoDBconectado.png)
+![13-MongoDBconectado](docs/capturas/13-mongodbconectado.png)
 
 
 ---
