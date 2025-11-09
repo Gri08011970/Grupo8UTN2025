@@ -164,39 +164,161 @@ Luego `npm run dev`.
 
 ---
 
-## Estructura del proyecto (resumen)
+## 📁 Estructura del Proyecto
 
-```
-backend/
-  index.mjs
-  db.mjs
-  models/
-    user.mjs
-    product.mjs
-    order.mjs
-  routes/
-    mongoRouter.mjs
+A continuación se detalla la estructura principal del proyecto **Grupo8UTN2025**, organizada en frontend (SPA con React) y backend (API Node + Express + MongoDB), según lo trabajado en la Diplomatura UTN.
 
-public/
-  images/
+```text
+Grupo8UTN2025/
+├─ backend/                          🧠 Backend (API REST Node + Express)
+│  ├─ db.mjs                         → Configuración de conexión a MongoDB (usa MONGO_URL, USE_MONGO)
+│  ├─ index.mjs                      → Punto de entrada del servidor, rutas y modo JSON/Mongo
+│  ├─ models/                        🧾 Modelos de datos (MongoDB + Mongoose)
+│  │  ├─ order.mjs                   → Esquema y modelo de órdenes/compras
+│  │  ├─ product.mjs                 → Esquema y modelo de productos
+│  │  └─ user.mjs                    → Esquema y modelo de usuarios
+│  └─ routes/
+│     └─ mongoRouter.mjs             → Rutas de auth, productos y órdenes (modo Mongo principal)
+│
+├─ docs/                             📚 Documentación del proyecto
+│  └─ capturas/                      🖼️ Capturas usadas en el README y defensa
+│     ├─ 01-home.png
+│     ├─ 01-consesion.png
+│     ├─ 01-consesionadmin.png
+│     ├─ 02-formregistro.png
+│     ├─ 02-rta201logininmediato.png
+│     ├─ 03-productoscategoriahombre.png
+│     ├─ 03-productoscategoriamujer.png
+│     ├─ 03-productoscategoriaunisex.png
+│     ├─ 04-formautocompletadoparaeditar.png
+│     ├─ 04-alertaeliminar.png
+│     ├─ 04-formproductos-listado-crear.png
+│     ├─ 05-crearproductocamposobligatorios.png
+│     ├─ 06-editarproducto-200red.png
+│     ├─ 06-editarproductorespuesta200red.png
+│     ├─ 07-productoeliminarbermuda....png
+│     ├─ 07-productoeliminadorespuestared.png
+│     ├─ 07-desaparicionproductodellistado.png
+│     ├─ 08-carrito.png
+│     ├─ 08-productoagregadocarrito.png
+│     ├─ 09-checkout.png
+│     ├─ 09-comprafinalizada.png
+│     ├─ 10-compraslistado.png
+│     ├─ 11-cambioestadodesplegable.png
+│     ├─ 11-red200.png
+│     ├─ 12-modalcompramanual.png
+│     ├─ 12-compramanualred201.png
+│     └─ 13-mongidbconectado.png
+│
+├─ public/                           🌐 Archivos estáticos públicos
+│  ├─ images/                        → Imágenes de productos por categoría (hombre/mujer/unisex)
+│  │  ├─ hombre/...
+│  │  ├─ mujer/...
+│  │  └─ unisex/...
+│  └─ vite.svg
+│
+├─ scripts/                          🛠️ Utilidades
+│  └─ migrate-from-json.mjs          → Script para migrar datos de db.json a MongoDB
+│
+├─ src/                              💻 Frontend (SPA con React + Vite)
+│  ├─ assets/
+│  │  └─ react.svg
+│  ├─ components/                    🔁 Componentes reutilizables
+│  │  ├─ Footer.jsx                  → Pie de página
+│  │  ├─ Navbar.jsx                  → Menú principal + links + sesión
+│  │  ├─ Pagination.jsx              → Paginación de productos
+│  │  └─ ProductCard.jsx             → Tarjeta de producto (imagen, precio, CTA)
+│  ├─ context/                       🌍 Estado global
+│  │  ├─ AuthContext.jsx             → Manejo de sesión, JWT, usuario logueado
+│  │  └─ CartContext.jsx             → Manejo de carrito, totales, persistencia
+│  ├─ hooks/                         🧩 Custom hooks
+│  │  ├─ UseAuth.js                  → Hook para usar contexto de autenticación
+│  │  └─ UseFetch.js                 → Hook para requests reutilizables
+│  ├─ pages/                         📄 Vistas principales (rutas)
+│  │  ├─ HomePage.jsx                → Landing / categorías destacadas
+│  │  ├─ CategoriesPage.jsx          → Listado por categoría
+│  │  ├─ ProductDetailPage.jsx       → Detalle de producto + agregar al carrito
+│  │  ├─ CartPage.jsx                → Resumen de carrito + checkout
+│  │  ├─ LoginPage.jsx               → Inicio de sesión
+│  │  ├─ SignUpPage.jsx              → Registro de usuario
+│  │  ├─ AdminProductsPage.jsx       → ABM de productos (solo admin)
+│  │  ├─ AdminOrdersPage.jsx         → Gestión de órdenes (solo admin)
+│  │                
+│  ├─ services/                      🔌 Capa de APIs
+│  │  ├─ api.js                      → Config base (VITE_API_URL, headers)
+│  │  ├─ auth.js                     → Login, registro, perfil
+│  │  ├─ products.js                 → CRUD de productos
+│  │  ├─ orders.js                   → Órdenes de compra
+│  │  └─ profile.js                  → Datos del usuario
+│  ├─ styles/
+│  │  └─ index.css                   → Estilos globales (Tailwind + ajustes)
+│  ├─ App.jsx                        → Definición de rutas, layout general
+│  └─ main.jsx                       → Punto de entrada React
+│
+├─ .env.example                      🔐 Ejemplo de configuración (.env no se versiona)
+├─ .gitignore                        → Exclusión de .env, node_modules, logs, etc.
+├─ db.json                           🗃️ Dataset base (modo JSON legacy / respaldo)
+├─ index.html
+├─ package.json
+├─ package-lock.json
+├─ README.md
+├─ vite.config.json
+└─ eslint.config.js
 
-scripts/
-  migrate-from-json.mjs
+## 📋 Conclusión — Cumplimiento de consignas y teoría vista
 
-src/
-  ... (Vite + React)
+Este proyecto integra de forma completa los contenidos teóricos y prácticos vistos durante la cursada de la Diplomatura UTN 2025, tanto en el **módulo Backend** como en el **módulo Frontend**.
 
-docs/
-  capturas/
-    (ver imágenes referenciadas en minúsculas)
+### 🔹 Backend — Node.js + Express + MongoDB
 
-.env
-```
+El desarrollo del backend se ajusta a todas las consignas del **Trabajo Práctico Integrador Backend 2025**:
+
+- **Arquitectura modular**: uso de carpetas `models/`, `routes/` y archivos de inicialización `db.mjs` e `index.mjs`, según la estructura enseñada en el curso.
+- **Persistencia de datos**: implementación dual con `USE_MONGO` para alternar entre persistencia en **MongoDB Atlas** (modo principal) y **JSON local** (modo fallback).
+- **Modelado de datos con Mongoose**: se definen esquemas `User`, `Product` y `Order` que reflejan las relaciones y validaciones necesarias.
+- **Ruteo centralizado y middleware**: las rutas se concentran en `mongoRouter.mjs`, integrando controladores, validaciones y middleware de seguridad.
+- **Variables de entorno**: el archivo `.env` y su plantilla `.env.example` gestionan credenciales, CORS, JWT y configuración de API, siguiendo las buenas prácticas vistas.
+- **Migración de datos**: el script `migrate-from-json.mjs` automatiza el pasaje de datos entre persistencias, aplicando los conocimientos de CLI y manipulación de archivos.
+- **Logs y entorno controlado**: se utiliza `dotenv`, `morgan` y flags de entorno (`LOG_ENABLED`, `MORGAN_FORMAT`) como parte del enfoque de observabilidad.
+
+El backend demuestra dominio de los temas de **ruteo, middlewares, asincronismo, persistencia y validación de datos**.
 
 ---
+
+### 🔹 Frontend — React + Vite + Tailwind
+
+El frontend responde íntegramente a las consignas del **Trabajo Práctico Integrador Frontend 2025** y a la teoría de **componentización y manejo de estado global**:
+
+- **SPA (Single Page Application)** desarrollada con React y Vite, con estructura organizada en `components/`, `pages/`, `context/`, `hooks/` y `services/`.
+- **Consumo de API REST**: integración completa con el backend mediante `fetch` centralizado en `services/api.js`, respetando endpoints RESTful y métodos HTTP.
+- **Gestión de estado global**: uso de Context API (`AuthContext` y `CartContext`) y custom hooks (`useAuth`, `useFetch`) que implementan los patrones vistos en clase.
+- **Ruteo cliente**: navegación dinámica con `react-router-dom`, incluyendo rutas públicas, privadas y secciones de administrador.
+- **Diseño responsivo y moderno**: uso de Tailwind CSS según la teoría de maquetado adaptativo; el proyecto mantiene coherencia estética y jerarquías visuales claras.
+- **Formularios y validaciones**: implementación de formularios controlados para registro, login, carga y edición de productos.
+- **Flujo completo de usuario y admin**: registro, login, navegación, compra, visualización de pedidos, CRUD de productos y gestión de órdenes.
+
+El frontend demuestra los conocimientos de **React Hooks, composición de componentes, contexto global, estilos con Tailwind y consumo de APIs REST**.
+
+---
+
+### 🔹 Integración Fullstack
+
+La aplicación combina ambos módulos en un ecosistema unificado:
+
+- **Conexión fullstack**: `VITE_API_URL` enlaza el frontend (Vite) con el backend (Express).
+- **Despliegue dual**: compatible con hosting combinado o independiente (Render + Vercel).
+- **Migración entre modos**: el interruptor `USE_MONGO` permite cambiar de Mongo a JSON sin alterar la interfaz.
+
+El resultado es un proyecto funcional, escalable y defendible, que refleja los conocimientos adquiridos y las prácticas recomendadas por la UTN.
+
+---
+
+✅ **Conclusión final:**  
+El proyecto **cumple en su totalidad con los requerimientos del Trabajo Práctico Integrador Frontend y Backend 2025**, aplicando las tecnologías, buenas prácticas y conceptos teóricos vistos en la cursada (ruteo, asincronismo, validación, manejo de estado, consumo de APIs y persistencia en base de datos).
+
 
 ## Créditos
 
 **Grupo 8 — Diplomatura Desarrollo Web I 2025 (UTN)**  
-**Integrantes:** Axel · Magalí Izaurralde· Diego Farias · Daniela · Griselda Molina  
+**Integrantes:** Axel · Magalí Izaurralde· Diego Farías · Daniela Ávalos ·Leonardo . Griselda Molina  
 **Profesor:** Axel Leonardi
