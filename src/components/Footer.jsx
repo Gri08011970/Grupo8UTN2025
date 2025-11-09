@@ -25,7 +25,7 @@ export default function Footer() {
             decoding="async"
           />
           <span>
-            ♥ Integrantes:   <span className="text-pink-600" aria-hidden></span>  Axel · Magalí Izaurralde · Diego Farias· Daniela Ávalos · Mauro .  Griselda Molina./ Profesor Axel Leonardi
+            ♥ Integrantes:   <span className="text-pink-600" aria-hidden></span>  Axel · Magalí Izaurralde · Diego Farias· Daniela Ávalos · Mauro Britez . Leandro  Griselda Molina./ Profesor Axel Leonardi
           </span>
         </div>
       </div>
