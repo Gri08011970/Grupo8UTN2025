@@ -207,47 +207,11 @@
           "image": "/images/mujer/remeras/remera-03.webp"
         }
       ],
-      "status": "cancelado",
+      "status": "pagado",
       "createdAt": "2025-10-13T10:27:42.365Z",
       "phone": "1555885853",
       "customerName": "Grupo 8 UTN",
       "id": "TPFv2Jl"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 60000,
-      "items": [
-        {
-          "id": 343,
-          "name": "Gorras unisex",
-          "price": 15000,
-          "qty": 4,
-          "image": "/images/unisex/gorras/gorra-02.webp"
-        }
-      ],
-      "status": "pendiente",
-      "createdAt": "2025-10-13T11:16:29.224Z",
-      "customerName": "Gri Molina",
-      "id": "O8EIvUs"
-    },
-    {
-      "customer": "Gri Molina",
-      "email": "griselmolina1970@gmail.com",
-      "total": 16000,
-      "items": [
-        {
-          "id": 328,
-          "name": "Remera Básica Unisex",
-          "price": 16000,
-          "qty": 1,
-          "image": "/images/unisex/remeras/remera-01.webp"
-        }
-      ],
-      "status": "enviado",
-      "createdAt": "2025-10-13T11:44:19.945Z",
-      "customerName": "Gri Molina",
-      "id": "WUWP3h1"
     },
     {
       "customer": "Claudia Molina",
@@ -259,6 +223,36 @@
       "phone": "1523659565",
       "customerName": "Claudia Molina",
       "id": "-HaUK0u"
+    },
+    {
+      "customer": "Grupo 8 UTN",
+      "email": "admin@tienda.com",
+      "total": 248500,
+      "items": [
+        {
+          "id": 306,
+          "name": "Jeans Relaxed Hombre",
+          "price": 35500,
+          "qty": 7,
+          "image": "/images/hombre/jeans/jeans-03.webp"
+        }
+      ],
+      "status": "pagado",
+      "createdAt": "2025-11-09T16:50:56.963Z",
+      "phone": "1555885853",
+      "customerName": "Grupo 8 UTN",
+      "id": "OQ49IWZ"
+    },
+    {
+      "customer": "Carolina Papaleo",
+      "email": "caro123@gmail.com",
+      "total": 15800,
+      "status": "enviado",
+      "items": [],
+      "createdAt": "2025-11-09T16:51:51.763Z",
+      "phone": "1548997562",
+      "customerName": "Carolina Papaleo",
+      "id": "JWbje8i"
     }
   ],
   "products": [

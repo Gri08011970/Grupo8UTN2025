@@ -94,59 +94,59 @@ Luego `npm run dev`.
 ## 📷 Evidencias del funcionamiento (con MongoDB)
 
 ### 01. Sesión de usuario y admin
-![01-conSesion](docs/capturas/01-conSesion.png)
-![01-conSesionAdmin](docs/capturas/01-conSesionadmin.png)
+![01-conSesion](docs\capturas\01-consesion.png)
+![01-conSesionAdmin](docs\capturas\01-consesionadmin.png)
 
 ### 01c. Home
 ![01-home](docs/capturas/01-home.png)
 
 ### 02. Registro y login
-![02-formRegistro](docs/capturas/02-formregistro.png)
-![02-rta201LoginInmediato](docs/capturas/02-rta201logininmediato.png)
+![02-formRegistro](docs\capturas\02-formregistro.png)
+![02-rta201LoginInmediato](docs\capturas\02-rta201logininmediato.png)
 
 ### 03. Productos por categoría
-![03-ProductosCategoriaHombre](docs/capturas/03-productoscategoriahombre.png)
-![03-ProductosCategoriaMujer](docs/capturas/03-productoscategoriamujer.png)
-![03-ProductosCategoriaUnisex](docs/capturas/03-productoscategoriaunisex.png)
+![03-ProductosCategoriaHombre](docs\capturas\03-productoscategoriahombre.png)
+![03-ProductosCategoriaMujer](docs\capturas\03-productoscategoriamujer.png)
+![03-ProductosCategoriaUnisex](docs\capturas\03-productoscategoriaunisex.png)
 
 ### 04. Alta/Edición y eliminación
-![04-alertaEliminar](docs/capturas/04-alertaeliminar.png)
-![04-formAutoCompletadoParaEditar](docs/capturas/04-formautocompletadoparaeditar.png)
-![04-formProductos-Listado-Crear](docs/capturas/04-formproductos-listado-crear.png)
+![04-alertaEliminar](docs\capturas\04-alertaeliminar.png)
+![04-formAutoCompletadoParaEditar](docs\capturas\04-formautocompletadoparaeditar.png)
+![04-formProductos-Listado-Crear](docs\capturas\04-formproductos-listado-crear.png)
 
 ### 05. Validaciones en creación de producto
-![05-crearProductoCamposObligatorios](docs/capturas/05-crearproductocamposobligatorios.png)
+![05-crearProductoCamposObligatorios](docs\capturas\05-crearproductocamposobligatorios.png)
 
 ### 06. Edición confirmada
-![06-editarProducto-200Red](docs/capturas/06-editarproducto-200red.png)
-![06-editarProductoRespuesta200Red](docs/capturas/06-editarproductorespuesta200red.png)
+![06-editarProducto-200Red](docs\capturas\06-editarproducto-200red.png)
+![06-editarProductoRespuesta200Red](docs\capturas\06-editarproductorespuesta200red.png)
 
 ### 07. Eliminación reflejada en listado
-![07-desaparicionProductoDelListado](docs/capturas/07-desaparicionproductodellistado.png)
-![07-productoEliminadoRespuestaRed](docs/capturas/07-productoeliminadorespuestared.png)
-![07-productoEliminarBermudaGabardinaHombre](docs/capturas/07-productoeliminarbermudagabardinahombre.png)
+![07-desaparicionProductoDelListado](docs\capturas\07-desaparicionproductodellistado.png)
+![07-productoEliminadoRespuestaRed](docs\capturas\07-productoeliminadorespuestared.png)
+![07-productoEliminarBermudaGabardinaHombre](docs\capturas\07-productoeliminarbermudagabardinahombre.png)
 
 ### 08. Carrito
 ![08-carrito](docs/capturas/08-carrito.png)
-![08-productoAgregadoCarrito](docs/capturas/08-productoagregadocarrito.png)
+![08-productoAgregadoCarrito](docs\capturas\08-productoagregadocarrito.png)
 
 ### 09. Checkout
-![09-checkout](docs/capturas/09-checkout.png)
-![09-comprafinalizada](docs/capturas/09-comprafinalizada.png)
+![09-checkout](docs\capturas\09-checkout.png)
+![09-comprafinalizada](docs\capturas\09-comprafinalizada.png)
 
 ### 10. Compras (listado)
-![10-comprasListado](docs/capturas/10-compraslistado.png)
+![10-comprasListado](docs\capturas\10-compraslistado.png)
 
 ### 11. Cambios de estado
-![11-cambioestadoDesplegable](docs/capturas/11-cambioestadodesplegable.png)
-![11-Red200](docs/capturas/11-red200.png)
+![11-cambioestadoDesplegable](docs\capturas\11-cambioestadodesplegable.png)
+![11-Red200](docs\capturas\11-red200.png)
 
 ### 12. Compra manual
-![12-compraManualRed201](docs/capturas/12-compramanualred201.png)
-![12-modalCompraManual](docs/capturas/12-modalcompramanual.png)
+![12-compraManualRed201](docs\capturas\12-compramanualred201.png)
+![12-modalCompraManual](docs\capturas\12-modalcompramanual.png)
 
 ### 13. **MongoDB conectado (modo principal)**
-![13-MongiDBconectado](docs/capturas/13-mongodbconectado.png)
+![13-MongiDBconectado](docs\capturas\13-mongidbconectado.png)
 
 ---
 
@@ -198,5 +198,5 @@ docs/
 ## Créditos
 
 **Grupo 8 — Diplomatura Desarrollo Web I 2025 (UTN)**  
-**Integrantes:** Axel · Magalí · Diego · Daniela · Griselda  
+**Integrantes:** Axel · Magalí Izaurralde· Diego Farias · Daniela · Griselda Molina  
 **Profesor:** Axel Leonardi
