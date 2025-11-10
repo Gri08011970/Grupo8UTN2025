@@ -5,14 +5,47 @@
 
 ---
 
-## Demo en producción
+🚀 Demo en producción
 
-Proyecto desplegado en Railway (Backend + Frontend integrado):
+Proyecto desplegado en Railway (Backend + Frontend integrados).
+Usa MongoDB Atlas como base de datos principal (USE_MONGO=true).
 
-🔗 https://grupo8utn2025-production.up.railway.app/
+🔗 App completa:
+👉 https://grupo8utn2025-production.up.railway.app
 
-- Usa **MongoDB Atlas** como base de datos principal (`USE_MONGO=true`).
-- Permite probar flujo completo: registro, login, CRUD de productos (admin), carrito, compras y cambio de estado.
+🔗 API (endpoint de prueba):
+👉 https://grupo8utn2025-production.up.railway.app/api/products
+
+Permite probar el flujo completo:
+
+Registro y login de usuarios
+
+CRUD de productos (modo administrador)
+
+Carrito y proceso de compra
+
+Cambio de estado de órdenes
+
+⚙️ Despliegue en producción (Railway + MongoDB Atlas)
+
+Configuración de entorno para el servicio en Railway:
+
+USE_MONGO=true
+MONGO_URL=mongodb+srv://<usuario>:<password>@<cluster>/<nombreDB>?retryWrites=true&w=majority
+FRONT_ORIGIN=https://grupo8utn2025-production.up.railway.app
+CORS_ORIGIN=https://grupo8utn2025-production.up.railway.app
+VITE_API_URL=https://grupo8utn2025-production.up.railway.app/api
+JWT_SECRET=dev-super-secret
+ADMIN_EMAIL=admin@tienda.com
+LOG_ENABLED=true
+MORGAN_FORMAT=dev
+LOG_TO_FILE=false
+
+
+Estado actual del deploy:
+
+MongoDB conectado
+API escuchando en http://localhost:8080/api (USE_MONGO=true)
 
 ---
 
