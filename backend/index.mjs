@@ -10,7 +10,19 @@ import { body, validationResult } from "express-validator";
 import dotenv from "dotenv";
 dotenv.config();
 
-const USE_MONGO = process.env.USE_MONGO === "true";
+// ---------- MONGO CONFIG ----------
+const rawUseMongo = process.env.USE_MONGO;
+const USE_MONGO =
+  typeof rawUseMongo === "string" &&
+  rawUseMongo.trim().toLowerCase() === "true";
+
+// Debug para Railway
+console.log("[BOOT] USE_MONGO raw:", JSON.stringify(rawUseMongo));
+console.log("[BOOT] USE_MONGO resolved:", USE_MONGO);
+console.log("[BOOT] MONGO_URL set:", !!process.env.MONGO_URL);
+
+
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -255,6 +267,9 @@ app.use((err, req, res, next) => {
 });
 
 // ---------- START ----------
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`API escuchando en http://localhost:${PORT}/api (USE_MONGO=${USE_MONGO})`);
+app.listen(PORT, () => {
+  console.log(
+    `API escuchando en http://localhost:${PORT}/api (USE_MONGO=${USE_MONGO})`
+  );
 });
+

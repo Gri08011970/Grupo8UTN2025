@@ -321,5 +321,5 @@ El proyecto **cumple en su totalidad con los requerimientos del Trabajo Práctic
 ## Créditos
 
 **Grupo 8 — Diplomatura Desarrollo Web I 2025 (UTN)**  
-**Integrantes:** Axel Chamorro· Magalí Izaurralde· Diego Farías · Daniela Ávalos · Mauro Britez .Leandro . Griselda Molina  
+**Integrantes:** Axel Chamorro· Magalí Izaurralde· Diego Farías · Daniela Ávalos · Mauro Britez .Leandro Pinazo. Griselda Molina  
 **Profesor:** Axel Leonardi
