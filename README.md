@@ -5,6 +5,17 @@
 
 ---
 
+## Demo en producción
+
+Proyecto desplegado en Railway (Backend + Frontend integrado):
+
+🔗 https://grupo8utn2025-production.up.railway.app/
+
+- Usa **MongoDB Atlas** como base de datos principal (`USE_MONGO=true`).
+- Permite probar flujo completo: registro, login, CRUD de productos (admin), carrito, compras y cambio de estado.
+
+---
+
 ## Tecnologías utilizadas
 - **Frontend:** Vite + React
 - **Backend:** Node.js + Express
