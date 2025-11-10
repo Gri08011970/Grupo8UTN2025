@@ -69,7 +69,7 @@ export function CartProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
-  // Persistencia continua bajo la clave del usuario actual
+  // Persistencia continua / clave del usuario actual
   useEffect(() => {
     localStorage.setItem(keyFor(email), JSON.stringify(items));
   }, [items, email]);

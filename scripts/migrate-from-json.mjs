@@ -87,7 +87,7 @@ async function run() {
   }
 
   console.log("Resumen migración:", summary);
-  console.log(DRY ? "DRY-RUN: no se escribieron cambios en Mongo" : "Migración completada ✅");
+  console.log(DRY ? "DRY-RUN: no se escribieron cambios en Mongo" : "Migración completada ");
   process.exit(0);
 }
 

@@ -1,4 +1,3 @@
-// backend/routes/mongoRouter.mjs
 import { Router } from "express";
 import { body, validationResult } from "express-validator";
 import bcrypt from "bcryptjs";
@@ -125,7 +124,7 @@ router.get("/products", async (req, res) => {
   res.json(products);
 });
 
-// 🔥 GET by ID (lo que faltaba)
+//  GET by ID 
 router.get("/products/:id", async (req, res) => {
   const { id } = req.params;
   const product = await Product.findOne({ id }).lean();

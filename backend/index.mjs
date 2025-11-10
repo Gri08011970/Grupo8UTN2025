@@ -72,9 +72,9 @@ function validateOr400(req, res, next) {
   return res.status(400).json({ errors: errors.array(), message: "HTTP 400" });
 }
 
-// ======================================================
+
 // ===============   RAMA MODO MONGO   ==================
-// ======================================================
+
 if (USE_MONGO) {
   const { connectDB } = await import("./db.mjs");
   const mongoRouter = (await import("./routes/mongoRouter.mjs")).default;
@@ -84,9 +84,9 @@ if (USE_MONGO) {
   // Todas las rutas de la API (auth, products, orders) en el router de Mongo
   app.use("/api", mongoRouter);
 
-// ======================================================
+
 // ===============   RAMA MODO JSON    ==================
-// ======================================================
+
 } else {
   // ----- json-server base -----
   const router = jsonServer.router(path.join(__dirname, "..", "db.json"));
